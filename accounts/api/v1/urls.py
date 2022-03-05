@@ -1,7 +1,13 @@
 from django.urls import path
-from .views import Demo
-app_name = "accounts-api-v1"
+from rest_framework.urlpatterns import format_suffix_patterns
+from .views import UserListApiView, UserDetailAPIView, RegisterAPIView, LoginAPIView, CurrentUser, GoogleLoginView
 
 urlpatterns = [
-    path('demo/',Demo.as_view(),name="Demo"),
+    path('user/', UserListApiView.as_view(), name="user"),
+    path('user/<int:pk>/', UserDetailAPIView.as_view(), name="user_detail"),
+    path('register/',RegisterAPIView.as_view(),name="register"),
+    path('login/',LoginAPIView.as_view(),name="login"),
+    path('current_user/',CurrentUser.as_view(),name="current-user"),
+    path('google/login/',GoogleLoginView.as_view(),name="google-log-in")
+
 ]
