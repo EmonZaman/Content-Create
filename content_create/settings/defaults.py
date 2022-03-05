@@ -12,11 +12,12 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 
 from pathlib import Path
 import environ
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
 LOGS_DIR = BASE_DIR / 'logs'
-LOGS_DIR.mkdir(parents = True, exist_ok = True)
+LOGS_DIR.mkdir(parents=True, exist_ok=True)
 
 env = environ.Env()
 environ.Env.read_env((BASE_DIR / '.env').as_posix())  # reading .env file
@@ -31,7 +32,6 @@ SECRET_KEY = env.str('SECRET_KEY')
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
@@ -50,10 +50,20 @@ INSTALLED_APPS = [
     # 3rd party apps
     "debug_toolbar",
     'rest_framework',
+    # 'django_filters',
+    'rest_framework.authtoken',
+
+    'django.contrib.sites',
+
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.google',
     # my apps
     'accounts',
     'core',
 ]
+SITE_ID = 1
 AUTH_USER_MODEL = 'accounts.User'
 MIDDLEWARE = [
     # DebugToolbarMiddleware should be included as early as possible in the list. However,
@@ -89,10 +99,17 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'content_create.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
+AUTHENTICATION_BACKENDS = [
 
+    # Needed to login by username in Django admin, regardless of `allauth`
+    'django.contrib.auth.backends.ModelBackend',
+
+    # `allauth` specific authentication methods, such as login by e-mail
+    'allauth.account.auth_backends.AuthenticationBackend',
+
+]
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
@@ -112,7 +129,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
 
@@ -126,14 +142,10 @@ USE_L10N = True
 
 USE_TZ = True
 
-
-
-
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
 
 # Logging settings
 LOGGING = {
@@ -144,14 +156,14 @@ LOGGING = {
             'format': '[{asctime}] {message}',
             'style': '{',
             'datefmt': '%d/%b/%Y %H:%M:%S'
-            }
-        },
+        }
+    },
     'handlers': {
         'console': {
             'level': 'INFO',
             'class': 'logging.StreamHandler',
             'formatter': 'verbose',
-            },
+        },
         'file': {
             'level': 'INFO',
             'class': 'logging.handlers.RotatingFileHandler',
@@ -159,22 +171,22 @@ LOGGING = {
             'maxBytes': 1024 * 1024 * 100,  # 100 MB
             'backupCount': 5,
             'formatter': 'verbose',
-            }
-        },
+        }
+    },
     'loggers': {
         'django': {
             'handlers': ['console', 'file'],
             'level': 'INFO',
             'propagate': False,
-            }
         }
     }
+}
 # DRF configs
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.BasicAuthentication',
         'rest_framework.authentication.SessionAuthentication',
-        # 'rest_framework.authentication.TokenAuthentication',
+        'rest_framework.authentication.TokenAuthentication',
     ],
     'DEFAULT_RENDERER_CLASSES': [
         'rest_framework.renderers.JSONRenderer',
@@ -183,7 +195,7 @@ REST_FRAMEWORK = {
     'DEFAULT_VERSIONING_CLASS': 'rest_framework.versioning.NamespaceVersioning',
     'DEFAULT_FILTER_BACKENDS': [
         'rest_framework.filters.SearchFilter',
-        'core.api.filters.OrderingFilter',
-        'django_filters.rest_framework.DjangoFilterBackend',
+        # 'core.api.filters.OrderingFilter',
+        # 'django_filters.rest_framework.DjangoFilterBackend',
     ]
 }
