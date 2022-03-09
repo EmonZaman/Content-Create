@@ -1,3 +1,4 @@
+import django_heroku
 from .defaults import *
 DEBUG = True
 
@@ -26,3 +27,5 @@ STATICFILES_DIRS = [BASE_DIR / 'static_local']
 
 # DEBUG TOOLBAR
 INTERNAL_IPS = ['127.0.0.1']
+# Activate Django-Heroku.
+django_heroku.settings(locals())
