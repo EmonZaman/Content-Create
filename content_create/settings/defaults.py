@@ -62,6 +62,7 @@ INSTALLED_APPS = [
     # my apps
     'accounts',
     'core',
+    'category',
 ]
 SITE_ID = 1
 AUTH_USER_MODEL = 'accounts.User'

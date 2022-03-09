@@ -1,0 +1,1 @@
+web: gunicorn content-create.wsgi --log-file -

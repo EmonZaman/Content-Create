@@ -1,7 +1,7 @@
 from .defaults import *
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['content-create-testing.herokuapp.com', '127.0.0.1']
 
 
 DATABASES = {
