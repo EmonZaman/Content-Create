@@ -2,9 +2,9 @@ import os
 
 import django_heroku
 from .defaults import *
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['django-testing-app-check.herokuapp.com', '127.0.0.1']
 
 
 DATABASES = {
