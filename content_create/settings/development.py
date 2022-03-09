@@ -1,5 +1,5 @@
 import os
-
+import django_heroku
 from .defaults import *
 DEBUG = False
 
@@ -25,6 +25,6 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
 STATICFILES_DIRS = [BASE_DIR / 'static_local']
-
+django_heroku.settings(locals())
 # DEBUG TOOLBAR
 INTERNAL_IPS = ['127.0.0.1']
