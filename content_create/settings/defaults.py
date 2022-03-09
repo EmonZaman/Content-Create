@@ -14,6 +14,7 @@ from pathlib import Path
 import environ
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
+
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
 LOGS_DIR = BASE_DIR / 'logs'
@@ -71,6 +72,7 @@ MIDDLEWARE = [
     # it must come after any other middleware that encodes the response’s content, such as GZipMiddleware.
     'debug_toolbar.middleware.DebugToolbarMiddleware',
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
