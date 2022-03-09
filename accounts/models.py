@@ -5,10 +5,18 @@ from django.utils.translation import gettext as _
 
 
 # Create your models here.
+# def upload_and_rename(self, filename):
+#     ext = filename.split('.')[-1]
+#     filename = f"{self.team.title}/{self.name.replace(' ', '-')}.{ext}"
+#     filename = f"resume/employees{filename}" if ext == 'pdf' or ext == 'doc' or ext == 'docs' or ext == 'odt' \
+#         else f"profile-pics/{filename}"
+#     return filename
+
 
 class User(AbstractUser):
     country = models.CharField(max_length=20, verbose_name=_('user country name'), blank=True)
-
+    # profile_pic = models.ImageField(upload_to=upload_and_rename, verbose_name=_('user profile pic'), blank=True,
+    #                                 null=True)
 
     def get_full_name(self):
         return super().get_full_name()

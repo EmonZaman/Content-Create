@@ -1,7 +1,7 @@
 from .defaults import *
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['content-create-testing.herokuapp.com', '127.0.0.1']
 
 
 DATABASES = {
@@ -15,7 +15,7 @@ DATABASES = {
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = '/static/'
-
+# STATIC_ROOT = os.path.join(BASE_DIR,'staticfiles')
 
 STATIC_ROOT = BASE_DIR / 'static'
 

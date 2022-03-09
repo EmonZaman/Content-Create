@@ -62,6 +62,7 @@ INSTALLED_APPS = [
     # my apps
     'accounts',
     'core',
+    'category',
 ]
 SITE_ID = 1
 AUTH_USER_MODEL = 'accounts.User'
@@ -70,6 +71,7 @@ MIDDLEWARE = [
     # it must come after any other middleware that encodes the response’s content, such as GZipMiddleware.
     'debug_toolbar.middleware.DebugToolbarMiddleware',
     'django.middleware.security.SecurityMiddleware',
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
