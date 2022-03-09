@@ -2,7 +2,7 @@ import os
 
 import django_heroku
 from .defaults import *
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['django-testing-app-check.herokuapp.com', '127.0.0.1']
 
