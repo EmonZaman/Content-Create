@@ -51,8 +51,12 @@ INSTALLED_APPS = [
     # 3rd party apps
     "debug_toolbar",
     'rest_framework',
+    'cloudinary_storage',
+    'cloudinary',
+    'media',
     # 'django_filters',
     'rest_framework.authtoken',
+    # 'drf-yasg'
 
     'django.contrib.sites',
 
@@ -190,6 +194,7 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.BasicAuthentication',
         'rest_framework.authentication.SessionAuthentication',
         'rest_framework.authentication.TokenAuthentication',
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
     ],
     'DEFAULT_RENDERER_CLASSES': [
         'rest_framework.renderers.JSONRenderer',

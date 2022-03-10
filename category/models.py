@@ -26,7 +26,7 @@ class Video(BaseModel):
     category = models.ForeignKey(Category, verbose_name=_('video category'), on_delete=models.SET_NULL, null=True)
     title = models.CharField(max_length=200, verbose_name=_('video title'))
     description = models.TextField(blank=True, verbose_name=_('video description'))
-    upload = models.FileField(upload_to=video_upload, verbose_name=_('video upload'), null=True, blank=True)
+    upload = models.FileField(upload_to="media/", verbose_name=_('video upload'), null=True, blank=True)
 
     class Meta:
         verbose_name = _('Video')
