@@ -53,7 +53,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'cloudinary_storage',
     'cloudinary',
-    'media',
+
     # 'django_filters',
     'rest_framework.authtoken',
     # 'drf-yasg'
