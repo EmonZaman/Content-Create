@@ -2,7 +2,7 @@ from contextvars import Token
 
 from allauth.socialaccount.providers.google.views import GoogleOAuth2Adapter
 from allauth.socialaccount.providers.oauth2.client import OAuth2Client
-from django.contrib.auth import authenticate
+from django.contrib.auth import get_user_model
 from rest_framework import request, status
 from rest_framework.exceptions import ValidationError
 from rest_framework.response import Response
@@ -32,14 +32,27 @@ class LoginAPIView(GenericAPIView):
     serializer_class = UserSerializer
 
     def post(self, request):
-        username = request.data.get("username")
+        email = request.data.get("email")
         password = request.data.get("password")
-        user = authenticate(username=username, password=password)
+        try:
+            user = self.authenticate(email=email, password=password)
+        except Exception as e:
+            user = None
+            print("auth error", e)
         if user:
             response = self.get_serializer(instance=user)
             return Response(response.data, status=200)
         else:
             return Response({"Could not authenticate user"}, status=404)
+
+    def authenticate(self, email=None, password=None):
+        user_model = get_user_model()
+        try:
+            user = user_model.objects.get(email=email)
+            if user.check_password(password):  # check valid password
+                return user  # return user to be authenticated
+        except user_model.DoesNotExist:  # no matching user exists
+            return None
 
 
 class CurrentUser(GenericAPIView):
@@ -49,6 +62,7 @@ class CurrentUser(GenericAPIView):
         current_user = request.user
         data = UserSerializer(current_user).data
         return Response(data, status=200)
+
 
 class AbstractBaseLoginView(GenericAPIView):
     authentication_classes = []
@@ -64,8 +78,6 @@ class AbstractBaseLoginView(GenericAPIView):
 
         user = serializer.validated_data.get('user')
         created = serializer.validated_data.get('created')
-
-
 
         user_serializer = UserSerializer(instance=user, context={'request': request})
         token, _ = Token.objects.get_or_create(user=user)

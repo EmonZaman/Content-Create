@@ -18,6 +18,7 @@ class User(AbstractUser):
     # profile_pic = models.ImageField(upload_to=upload_and_rename, verbose_name=_('user profile pic'), blank=True,
     #                                 null=True)
 
+
     def get_full_name(self):
         return super().get_full_name()
 

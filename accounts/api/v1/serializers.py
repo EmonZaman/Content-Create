@@ -64,7 +64,7 @@ class UserSerializer(serializers.ModelSerializer):
         fields = ['username', "email",  "token", "password"]
         extra_kwargs = {
             "password": {"write_only": True},
-            "email": {"read_only": True}
+            "username": {"read_only": True}
         }
 
     def get_name(self, obj: User):

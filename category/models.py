@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils.translation import gettext as _
+from cloudinary.models import CloudinaryField
 
 # Create your models here.
 from core.models import BaseModel
@@ -10,6 +11,7 @@ def video_upload(self, filename):
     filename = f"{self.category.name}/{self.title.replace(' ', '-')}.{ext}"
     filename = f"category/videos/{filename}"
     return filename
+
 
 class Category(BaseModel):
     name = models.CharField(max_length=200, verbose_name=_('category name'))
@@ -22,11 +24,17 @@ class Category(BaseModel):
     def __str__(self):
         return f"{self.name}"
 
+
 class Video(BaseModel):
     category = models.ForeignKey(Category, verbose_name=_('video category'), on_delete=models.SET_NULL, null=True)
     title = models.CharField(max_length=200, verbose_name=_('video title'))
     description = models.TextField(blank=True, verbose_name=_('video description'))
-    upload = models.FileField(upload_to="media/", verbose_name=_('video upload'), null=True, blank=True)
+    upload = models.FileField(upload_to="media/",verbose_name=_('video upload'), null=True, blank=True)
+    # file = CloudinaryField("Video",
+    #                        overwrite=True,
+    #                        resource_type="video",
+    #                        transformation={"quality": "auto:eco"},
+    #                        )
 
     class Meta:
         verbose_name = _('Video')

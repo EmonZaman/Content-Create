@@ -38,7 +38,13 @@ django_heroku.settings(locals())
 CLOUDINARY_STORAGE = {
     'CLOUD_NAME': 'dlvdomgmh',
     'API_KEY': '424831393245899',
-    'API_SECRET': 'drO3KapwEEH_qXQTI9UZp-231Fw'
+    # 'resource_type':'video',
+    'API_SECRET': 'drO3KapwEEH_qXQTI9UZp-231Fw',
+    # 'STATIC_IMAGES_EXTENSIONS': ['jpg', 'jpe', 'jpeg', 'jpc', 'jp2', 'j2k', 'wdp', 'jxr',
+    #                              'hdp', 'png', 'gif', 'webp', 'bmp', 'tif', 'tiff', 'ico'],
+    # 'STATIC_VIDEOS_EXTENSIONS': ['mp4', 'webm', 'flv', 'mov', 'ogv' ,'3gp' ,'3g2' ,'wmv' ,
+    #                              'mpeg' ,'flv' ,'mkv' ,'avi'],
+
 }
 
 # EMAIL_USE_TLS = True

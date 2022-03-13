@@ -34,3 +34,5 @@ class category_content(ListAPIView):
         category = self.request.query_params.get('category', None)
 
         return Video.objects.filter(category__name=category)
+
+
