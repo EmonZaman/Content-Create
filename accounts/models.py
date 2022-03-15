@@ -32,7 +32,7 @@ class User(AbstractUser):
     linked_in = models.CharField(max_length=255, verbose_name=_('User linked in link'), blank=True)
 
     full_name = models.TextField(blank=True, verbose_name=_('User full name'))
-    age = models.IntegerField(verbose_name=_('user age'))
+    age = models.IntegerField(verbose_name=_('user age'),null=True,blank=True)
     language = models.CharField(max_length=255, verbose_name=_('User language'), blank=True)
 
     def get_full_name(self):
