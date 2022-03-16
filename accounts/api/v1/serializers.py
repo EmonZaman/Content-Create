@@ -22,6 +22,12 @@ class AccountsSerializer(serializers.ModelSerializer):
         fields = '__all__'
         depth = 1
 
+# class UserProfileDetailSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = UserProfile
+#         exclude = ['user']
+#         # depth = 1
+
 
 @receiver(post_save, sender=settings.AUTH_USER_MODEL)
 def create_auth_token(sender, instance=None, created=False, **kwargs):
@@ -38,6 +44,7 @@ class RegisterSerializer(serializers.ModelSerializer):
         extra_kwargs = {
             'password': {'write_only': True}
         }
+
 
     def save(self):
         user = User(
@@ -57,15 +64,17 @@ class RegisterSerializer(serializers.ModelSerializer):
 
 class UserSerializer(serializers.ModelSerializer):
     token = serializers.SerializerMethodField()
+    # userprofile= UserProfileDetailSerializer()
 
 
     class Meta:
         model = User
-        fields = ['username', "email",  "token", "password"]
+        fields = "__all__"
         extra_kwargs = {
             "password": {"write_only": True},
             "username": {"read_only": True}
         }
+        depth = 1
 
     def get_name(self, obj: User):
         google_profile = obj.get_google_profile_data()
