@@ -24,14 +24,12 @@ api_url_patterns = (
         path('accounts/v1/', include('accounts.api.v1.urls')),
         path('category/v1/', include('category.api.v1.urls')),
 
-
     ], 'api'
 )
 urlpatterns = [
     path('admin/', admin.site.urls),
 
-
-    path('api/',include(api_url_patterns)),
+    path('api/', include(api_url_patterns)),
     path('api_auth/', include('rest_framework.urls')),
     path('accounts/', include('allauth.urls')),
 ]

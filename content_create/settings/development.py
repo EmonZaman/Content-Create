@@ -2,10 +2,10 @@ import os
 
 import django_heroku
 from .defaults import *
+
 DEBUG = True
 
 ALLOWED_HOSTS = ['django-testing-app-check.herokuapp.com', '127.0.0.1']
-
 
 DATABASES = {
     'default': {
@@ -30,9 +30,9 @@ STATICFILES_DIRS = (
 )
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 # STATICFILES_DIRS = [BASE_DIR / 'static_local']
-#storage for cloudinary
+# storage for cloudinary
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
-#storage for aws s3
+# storage for aws s3
 # DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 
 # DEBUG TOOLBAR
@@ -61,5 +61,3 @@ CLOUDINARY_STORAGE = {
 # EMAIL_PORT = 587
 # EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
 # EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
-
-

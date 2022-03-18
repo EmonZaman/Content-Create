@@ -15,12 +15,12 @@ from rest_framework.authtoken.models import Token
 from django.utils.translation import gettext as _
 
 
-
 class AccountsSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = '__all__'
         depth = 1
+
 
 # class UserProfileDetailSerializer(serializers.ModelSerializer):
 #     class Meta:
@@ -45,7 +45,6 @@ class RegisterSerializer(serializers.ModelSerializer):
             'password': {'write_only': True}
         }
 
-
     def save(self):
         user = User(
             email=self.validated_data['email'],
@@ -64,8 +63,8 @@ class RegisterSerializer(serializers.ModelSerializer):
 
 class UserSerializer(serializers.ModelSerializer):
     token = serializers.SerializerMethodField()
-    # userprofile= UserProfileDetailSerializer()
 
+    # userprofile= UserProfileDetailSerializer()
 
     class Meta:
         model = User
@@ -90,6 +89,7 @@ class UserSerializer(serializers.ModelSerializer):
     def get_token(self, obj):
         token = Token.objects.get_or_create(user=obj)
         return token[0].key
+
 
 class GoogleLoginSerializer(serializers.Serializer):
     auth_code = serializers.CharField(label=_('Authorization code'), required=False)
@@ -196,7 +196,6 @@ class GoogleLoginSerializer(serializers.Serializer):
 
     def create(self, validated_data):
         pass
-
 
 # noinspection PyMethodMayBeStatic
 # class UserSerializer(serializers.ModelSerializer):

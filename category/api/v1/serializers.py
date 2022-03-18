@@ -1,6 +1,7 @@
 from category.models import Category, Video
 from rest_framework import serializers
 
+
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
