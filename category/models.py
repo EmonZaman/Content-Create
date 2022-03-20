@@ -3,6 +3,7 @@ from django.utils.translation import gettext as _
 from cloudinary.models import CloudinaryField
 
 # Create your models here.
+from accounts.models import User
 from core.models import BaseModel
 
 
@@ -42,3 +43,14 @@ class Video(BaseModel):
 
     def __str__(self):
         return f"{self.category.name}"
+class UserSubcription(BaseModel):
+    user = models.OneToOneField(User, verbose_name=_('Auth User'), on_delete=models.CASCADE),
+    is_pro = models.BooleanField(default=False,verbose_name=_('user is pro or not')),
+    pro_expiry_date= models.DateTimeField(null=True,verbose_name=_('subscription expiry date'), blank=True)
+
+    class Meta:
+        verbose_name = _('UserSubcription')
+        verbose_name_plural = _('UserSubcriptions')
+
+    def __str__(self):
+        return f"{self.is_pro}"

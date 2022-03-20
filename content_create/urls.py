@@ -17,6 +17,7 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
 
+
 from content_create.settings import env, STATIC_URL, MEDIA_URL, STATIC_ROOT, MEDIA_ROOT
 
 api_url_patterns = (
@@ -29,9 +30,12 @@ api_url_patterns = (
 urlpatterns = [
     path('admin/', admin.site.urls),
 
+    path('category/', include('category.urls')),
+
     path('api/', include(api_url_patterns)),
     path('api_auth/', include('rest_framework.urls')),
     path('accounts/', include('allauth.urls')),
+
 ]
 
 if env.str('ENV_TYPE') == 'DEVELOPMENT':

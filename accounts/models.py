@@ -44,3 +44,4 @@ class User(AbstractUser):
             return social_account.extra_data
         except (AttributeError, Exception):
             return {}
+

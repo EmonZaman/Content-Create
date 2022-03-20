@@ -62,13 +62,16 @@ class RegisterSerializer(serializers.ModelSerializer):
 
 
 class UserSerializer(serializers.ModelSerializer):
-    token = serializers.SerializerMethodField()
+    # token = serializers.SerializerMethodField()
 
     # userprofile= UserProfileDetailSerializer()
 
     class Meta:
         model = User
-        fields = "__all__"
+
+        # fields = "__all__"
+        exclude = ['password']
+
         extra_kwargs = {
             "password": {"write_only": True},
             "username": {"read_only": True}
