@@ -62,19 +62,19 @@ class RegisterSerializer(serializers.ModelSerializer):
 
 
 class UserSerializer(serializers.ModelSerializer):
-    # token = serializers.SerializerMethodField()
+    token = serializers.SerializerMethodField(read_only=True)
 
     # userprofile= UserProfileDetailSerializer()
 
     class Meta:
         model = User
 
-        # fields = "__all__"
-        exclude = ['password']
+        fields = "__all__"
+        # exclude = ['password']
 
         extra_kwargs = {
             "password": {"write_only": True},
-            "username": {"read_only": True}
+            "username": {"read_only": True},
         }
         depth = 1
 
@@ -86,11 +86,14 @@ class UserSerializer(serializers.ModelSerializer):
         google_profile = obj.get_google_profile_data()
         return google_profile.get('picture')
 
-    def update(self, instance, validated_data):
-        return validated_data
+    # def update(self, instance, validated_data):
+    #     return validated_data
 
     def get_token(self, obj):
-        token = Token.objects.get_or_create(user=obj)
+        request_method = self.context['request'].method
+        if request_method != "GET":
+            return None
+        token = Token.objects.get_or_create(user=obj.id)
         return token[0].key
 
 
