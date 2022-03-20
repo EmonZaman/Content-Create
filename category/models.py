@@ -30,7 +30,8 @@ class Video(BaseModel):
     category = models.ForeignKey(Category, verbose_name=_('video category'), on_delete=models.SET_NULL, null=True)
     title = models.CharField(max_length=200, verbose_name=_('video title'))
     description = models.TextField(blank=True, verbose_name=_('video description'))
-    upload = models.FileField(upload_to="media/",verbose_name=_('video upload'), null=True, blank=True)
+    upload = models.FileField(upload_to="media/", verbose_name=_('video upload'), null=True, blank=True)
+
     # file = CloudinaryField("Video",
     #                        overwrite=True,
     #                        resource_type="video",
@@ -43,14 +44,17 @@ class Video(BaseModel):
 
     def __str__(self):
         return f"{self.category.name}"
-class UserSubcription(BaseModel):
-    user = models.OneToOneField(User, verbose_name=_('Auth User'), on_delete=models.CASCADE),
-    is_pro = models.BooleanField(default=False,verbose_name=_('user is pro or not')),
-    pro_expiry_date= models.DateTimeField(null=True,verbose_name=_('subscription expiry date'), blank=True)
+
+
+class UserSubscription(BaseModel):
+    user = models.OneToOneField(User, verbose_name=_('Auth User'), on_delete=models.CASCADE)
+    is_pro = models.BooleanField(default=False, verbose_name=_('user is pro or not'))
+    pro_expiry_date = models.DateTimeField(null=True, verbose_name=_('subscription expiry date'), blank=True)
 
     class Meta:
-        verbose_name = _('UserSubcription')
-        verbose_name_plural = _('UserSubcriptions')
+        verbose_name = _('UserSubscription')
+        verbose_name_plural = _('UserSubscriptions')
 
     def __str__(self):
-        return f"{self.is_pro}"
+        print(self.user)
+        return f"{self.user.username}"

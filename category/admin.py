@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Category, Video, UserSubcription
+from .models import Category, Video, UserSubscription
 # Register your models here.
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
@@ -10,7 +10,7 @@ class VideoAdmin(admin.ModelAdmin):
     pass
 
 
-@admin.register(UserSubcription)
-class UserSubcriptionAdmin(admin.ModelAdmin):
+@admin.register(UserSubscription)
+class UserSubscriptionAdmin(admin.ModelAdmin):
     pass
 
