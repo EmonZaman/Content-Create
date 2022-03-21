@@ -20,20 +20,20 @@ def upload_and_rename(self, filename):
 
 
 class User(AbstractUser):
-    country = models.CharField(max_length=20, verbose_name=_('user country name'), blank=True)
+    country = models.CharField(max_length=20, null=True, verbose_name=_('user country name'), blank=True)
     profile_pic = models.ImageField(upload_to="media/", verbose_name=_('user profile pic'), blank=True,
                                     null=True)
-    secondary_email = models.EmailField(max_length=255, verbose_name=_('user secondary  email'), unique=True,
+    secondary_email = models.EmailField(max_length=255,  verbose_name=_('user secondary  email'), unique=True,
                                         blank=True, null=True)
-    phone = models.CharField(max_length=255, verbose_name=_('User phone no'), blank=True)
+    phone = models.CharField(max_length=255,null=True, verbose_name=_('User phone no'), blank=True)
     content_choice = models.TextField(verbose_name=_("User content-choices"), blank=True)
-    gender = models.CharField(max_length=255, verbose_name=_('User gender'), blank=True)
-    facebook = models.CharField(max_length=255, verbose_name=_('User facebook_link'), blank=True)
-    linked_in = models.CharField(max_length=255, verbose_name=_('User linked in link'), blank=True)
+    gender = models.CharField(max_length=255, null=True, verbose_name=_('User gender'), blank=True)
+    facebook = models.CharField(max_length=255, null=True,verbose_name=_('User facebook_link'), blank=True)
+    linked_in = models.CharField(max_length=255,null=True, verbose_name=_('User linked in link'), blank=True)
 
-    full_name = models.TextField(blank=True, verbose_name=_('User full name'))
+    full_name = models.TextField(blank=True,null=True, verbose_name=_('User full name'))
     age = models.IntegerField(verbose_name=_('user age'),null=True,blank=True)
-    language = models.CharField(max_length=255, verbose_name=_('User language'), blank=True)
+    language = models.CharField(max_length=255, null=True,verbose_name=_('User language'), blank=True)
 
     def get_full_name(self):
         return super().get_full_name()

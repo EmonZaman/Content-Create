@@ -28,9 +28,10 @@ class Category(BaseModel):
 
 class Video(BaseModel):
     category = models.ForeignKey(Category, verbose_name=_('video category'), on_delete=models.SET_NULL, null=True)
-    title = models.CharField(max_length=200, verbose_name=_('video title'))
-    description = models.TextField(blank=True, verbose_name=_('video description'))
-    upload = models.FileField(upload_to="media/", verbose_name=_('video upload'), null=True, blank=True)
+    title = models.CharField(max_length=200,blank=True, null=True, verbose_name=_('video title'))
+    description = models.TextField(blank=True, null=True,verbose_name=_('video description'))
+    video_upload_media = models.FileField(upload_to="media/", verbose_name=_('video upload'), null=True, blank=True)
+    youtube_video_link= models.URLField(max_length=200,verbose_name=_('video upload'), null=True, blank=True)
 
     # file = CloudinaryField("Video",
     #                        overwrite=True,
@@ -48,8 +49,9 @@ class Video(BaseModel):
 
 class UserSubscription(BaseModel):
     user = models.OneToOneField(User, verbose_name=_('Auth User'), on_delete=models.CASCADE)
-    is_pro = models.BooleanField(default=False, verbose_name=_('user is pro or not'))
-    pro_expiry_date = models.DateTimeField(null=True, verbose_name=_('subscription expiry date'), blank=True)
+    is_pro = models.BooleanField(default=False, verbose_name=_('User is pro or not'))
+    pro_expiry_date = models.DateTimeField(null=True, verbose_name=_('Subscription expiry date'), blank=True)
+    price = models.IntegerField(verbose_name=_('Subscription price'), null=True, blank=True)
 
     class Meta:
         verbose_name = _('UserSubscription')
