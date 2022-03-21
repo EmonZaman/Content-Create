@@ -30,8 +30,10 @@ class Video(BaseModel):
     category = models.ForeignKey(Category, verbose_name=_('video category'), on_delete=models.SET_NULL, null=True)
     title = models.CharField(max_length=200,blank=True, null=True, verbose_name=_('video title'))
     description = models.TextField(blank=True, null=True,verbose_name=_('video description'))
-    video_upload_media = models.FileField(upload_to="media/", verbose_name=_('video upload'), null=True, blank=True)
-    youtube_video_link= models.URLField(max_length=200,verbose_name=_('video upload'), null=True, blank=True)
+    video_upload_media = models.FileField(upload_to="media/", verbose_name=_('video upload media'), null=True, blank=True)
+    youtube_video_link= models.URLField(max_length=200,verbose_name=_('Youtube video link'), null=True, blank=True)
+    video_oid = models.CharField(max_length=200,blank=True, null=True, verbose_name=_('Video oid'))
+
 
     # file = CloudinaryField("Video",
     #                        overwrite=True,
