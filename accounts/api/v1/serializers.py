@@ -62,7 +62,8 @@ class RegisterSerializer(serializers.ModelSerializer):
 
 
 class UserSerializer(serializers.ModelSerializer):
-    token = serializers.SerializerMethodField(read_only=True)
+    # token = serializers.SerializerMethodField(read_only=True)
+    token = serializers.SerializerMethodField()
 
     # userprofile= UserProfileDetailSerializer()
 
@@ -70,6 +71,7 @@ class UserSerializer(serializers.ModelSerializer):
         model = User
 
         fields = "__all__"
+        # fields = ['username', "email", "token", "password"]
         # exclude = ['password']
 
         extra_kwargs = {
@@ -89,11 +91,15 @@ class UserSerializer(serializers.ModelSerializer):
     # def update(self, instance, validated_data):
     #     return validated_data
 
+    # def get_token(self, obj):
+    #     request_method = self.context['request'].method
+    #     if request_method != "GET":
+    #         return None
+    #     token = Token.objects.get_or_create(user=obj)
+    #     return token[0].key
+
     def get_token(self, obj):
-        request_method = self.context['request'].method
-        if request_method != "GET":
-            return None
-        token = Token.objects.get_or_create(user=obj.id)
+        token = Token.objects.get_or_create(user=obj)
         return token[0].key
 
 
