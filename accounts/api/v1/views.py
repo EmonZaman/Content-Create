@@ -1,5 +1,5 @@
-from contextvars import Token
-
+# from contextvars import Token
+from rest_framework.authtoken.models import Token
 from allauth.socialaccount.providers.google.views import GoogleOAuth2Adapter
 from allauth.socialaccount.providers.oauth2.client import OAuth2Client
 from django.contrib.auth import get_user_model
@@ -12,6 +12,7 @@ from accounts.api.v1 import serializers
 from accounts.models import User
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView, CreateAPIView, GenericAPIView
 from accounts.api.v1.serializers import AccountsSerializer, RegisterSerializer, UserSerializer, GoogleLoginSerializer
+
 
 
 class UserListApiView(ListCreateAPIView):
