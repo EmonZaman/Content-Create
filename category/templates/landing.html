@@ -1,0 +1,91 @@
+<!--<!DOCTYPE html>-->
+<!--<html>-->
+<!--<head>-->
+<!--    <title>Buy cool new product</title>-->
+<!--    <title>Buy cool new product</title>-->
+<!--    <link rel="stylesheet" href="style.css">-->
+<!--    <script src="https://polyfill.io/v3/polyfill.min.js?version=3.52.1&features=fetch"></script>-->
+<!--    <script src="https://js.stripe.com/v3/"></script>-->
+
+<!--</head>-->
+<!--<body>-->
+<!--<section>-->
+<!--    <div class="product">-->
+<!--&lt;!&ndash;        <img src="https://i.imgur.com/EHyR2nP.png" alt="The cover of Stubborn Attachments"/>&ndash;&gt;-->
+<!--        <div class="description">-->
+<!--            <h3>{{product.name}}</h3>-->
+<!--            <h5>${{product.get_display_price}}</h5>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--    &lt;!&ndash;      <form action="/create-checkout-session" method="POST">&ndash;&gt;-->
+<!--    &lt;!&ndash;        <button type="submit" id="checkout-button">Checkout</button>&ndash;&gt;-->
+<!--    &lt;!&ndash;      </form>&ndash;&gt;-->
+<!--    <div>-->
+<!--        <button type="button" id="checkout-button"> Checkout</button>-->
+<!--    </div>-->
+<!--</section>-->
+
+<!--{% csrf_token %}-->
+<!--</body>-->
+
+<!--<script>-->
+<!--    const csrftoken = document.querySelector('[name =csrfmiddlewaretoken]').value;-->
+
+<!--    var stripe = Stripe("sk_test_51KeXrmExsbXRovz76iC19UwNt6uq4XfEjMZIIwfHoz8JW6Sq9UFLk8PfmpqHtE49a27bWjXgeLgRViJC4LpBoSUM001fgxvoRx");-->
+<!--    var checkoutButton = document.getElementById("checkout-button");-->
+<!--    checkoutButton.addEventListener("click", function () {-->
+<!--        fetch('http://127.0.0.1:8000/create-checkout-session/1/', {-->
+<!--            method: "POST",-->
+<!--            headers: {-->
+<!--                'X-CSRFToken': csrftoken-->
+<!--            }-->
+<!--        })-->
+<!--            .then(function (response) {-->
+<!--                return response.json();-->
+
+<!--            })-->
+<!--            .then(function (session) {-->
+<!--                return stripe.redirectToCheckout({sessionId: session.id});-->
+
+<!--            })-->
+<!--            .then(function (result) {-->
+<!--                if (result.error) {-->
+<!--                    alert(result.error.message);-->
+<!--                }-->
+<!--            })-->
+<!--            .catch(function (error) {-->
+<!--                console.error("Error:", error);-->
+<!--            })-->
+<!--    })-->
+
+
+<!--</script>-->
+
+
+<!--</html>-->
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Buy cool new product</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://polyfill.io/v3/polyfill.min.js?version=3.52.1&features=fetch"></script>
+    <script src="https://js.stripe.com/v3/"></script>
+  </head>
+  <body>
+    <section>
+      <div class="product">
+        <img src="https://i.imgur.com/EHyR2nP.png" alt="The cover of Stubborn Attachments" />
+        <div class="description">
+          <h3>{{product.name}}</h3>
+          <h5>${{product.get_display_price}}</h5>
+        </div>
+      </div>
+
+      <form action='http://127.0.0.1:8000/create-checkout-session/' method="POST">
+           {% csrf_token %}
+        <button type="submit" id="checkout-button">Checkout</button>
+      </form>
+    </section>
+  </body>
+</html>

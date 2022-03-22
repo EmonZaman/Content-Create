@@ -28,12 +28,12 @@ class Category(BaseModel):
 
 class Video(BaseModel):
     category = models.ForeignKey(Category, verbose_name=_('video category'), on_delete=models.SET_NULL, null=True)
-    title = models.CharField(max_length=200,blank=True, null=True, verbose_name=_('video title'))
-    description = models.TextField(blank=True, null=True,verbose_name=_('video description'))
-    video_upload_media = models.FileField(upload_to="media/", verbose_name=_('video upload media'), null=True, blank=True)
-    youtube_video_link= models.URLField(max_length=200,verbose_name=_('Youtube video link'), null=True, blank=True)
-    video_oid = models.CharField(max_length=200,blank=True, null=True, verbose_name=_('Video oid'))
-
+    title = models.CharField(max_length=200, blank=True, null=True, verbose_name=_('video title'))
+    description = models.TextField(blank=True, null=True, verbose_name=_('video description'))
+    video_upload_media = models.FileField(upload_to="media/", verbose_name=_('video upload media'), null=True,
+                                          blank=True)
+    youtube_video_link = models.URLField(max_length=200, verbose_name=_('Youtube video link'), null=True, blank=True)
+    video_oid = models.CharField(max_length=200, blank=True, null=True, verbose_name=_('Video oid'))
 
     # file = CloudinaryField("Video",
     #                        overwrite=True,
@@ -51,9 +51,10 @@ class Video(BaseModel):
 
 class UserSubscription(BaseModel):
     user = models.OneToOneField(User, verbose_name=_('Auth User'), on_delete=models.CASCADE)
+    name = models.TextField(blank=True, null=True, verbose_name=_('Subscription name'))
     is_pro = models.BooleanField(default=False, verbose_name=_('User is pro or not'))
     pro_expiry_date = models.DateTimeField(null=True, verbose_name=_('Subscription expiry date'), blank=True)
-    price = models.IntegerField(verbose_name=_('Subscription price'), null=True, blank=True)
+    price = models.IntegerField(verbose_name=_('Subscription price'), default=0)
 
     class Meta:
         verbose_name = _('UserSubscription')
@@ -62,3 +63,6 @@ class UserSubscription(BaseModel):
     def __str__(self):
         print(self.user)
         return f"{self.user.username}"
+
+    def get_display_price(self):
+        return "{0:.2f}".format((self.price / 100))
