@@ -50,6 +50,10 @@ CLOUDINARY_STORAGE = {
     #                              'mpeg' ,'flv' ,'mkv' ,'avi'],
 
 }
+CORS_ALLOWED_ORIGINS = [
+    'http://localhost:3000',
+    'https://dashboard404.vercel.app',
+]
 # for aws s3
 # AWS_S3_ACCESS_KEY_ID
 # AWS_S3_SECRET_ACCESS_KEY

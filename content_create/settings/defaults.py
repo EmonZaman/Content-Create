@@ -105,10 +105,7 @@ TEMPLATES = [
         },
     },
 ]
-CORS_ALLOWED_ORIGINS = [
-    'http://localhost:3000',
-    'https://dashboard404.vercel.app',
-]
+
 WSGI_APPLICATION = 'content_create.wsgi.application'
 
 # Database
