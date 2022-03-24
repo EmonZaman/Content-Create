@@ -5,7 +5,7 @@ from .defaults import *
 
 DEBUG = True
 
-ALLOWED_HOSTS = ['django-testing-app-check.herokuapp.com', '127.0.0.1']
+ALLOWED_HOSTS = ['django-testing-app-check.herokuapp.com', '127.0.0.1', 'http://localhost:3000']
 # ALLOWED_HOSTS=['*']
 # CORS_ORIGIN_ALLOW_ALL = True
 
