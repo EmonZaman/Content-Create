@@ -51,7 +51,7 @@ CLOUDINARY_STORAGE = {
 
 }
 CORS_ALLOWED_ORIGINS = [
-    'http://localhost:3000',
+    'https://localhost:3000',
     'https://dashboard404.vercel.app',
 ]
 # for aws s3
