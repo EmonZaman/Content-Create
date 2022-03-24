@@ -5,9 +5,8 @@ from .defaults import *
 
 DEBUG = True
 
-ALLOWED_HOSTS = ['django-testing-app-check.herokuapp.com', '127.0.0.1', 'http://localhost:3000']
-# ALLOWED_HOSTS=['*']
-# CORS_ORIGIN_ALLOW_ALL = True
+# ALLOWED_HOSTS = ['django-testing-app-check.herokuapp.com', '127.0.0.1', 'http://localhost:3000']
+
 
 DATABASES = {
     'default': {
@@ -52,10 +51,7 @@ CLOUDINARY_STORAGE = {
     #                              'mpeg' ,'flv' ,'mkv' ,'avi'],
 
 }
-CORS_ALLOWED_ORIGINS = [
-    'http://localhost:3000',
-    'https://dashboard404.vercel.app',
-]
+
 # for aws s3
 # AWS_S3_ACCESS_KEY_ID
 # AWS_S3_SECRET_ACCESS_KEY
