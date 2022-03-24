@@ -1,4 +1,5 @@
 # from contextvars import Token
+from django.shortcuts import redirect
 from rest_framework.authtoken.models import Token
 from allauth.socialaccount.providers.google.views import GoogleOAuth2Adapter
 from allauth.socialaccount.providers.oauth2.client import OAuth2Client
@@ -12,7 +13,9 @@ from accounts.api.v1 import serializers
 from accounts.models import User
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView, CreateAPIView, GenericAPIView
 from accounts.api.v1.serializers import AccountsSerializer, RegisterSerializer, UserSerializer, GoogleLoginSerializer
+import stripe
 
+stripe.api_key = 'sk_test_51KeXrmExsbXRovz76iC19UwNt6uq4XfEjMZIIwfHoz8JW6Sq9UFLk8PfmpqHtE49a27bWjXgeLgRViJC4LpBoSUM001fgxvoRx'
 
 
 class UserListApiView(ListCreateAPIView):
@@ -23,6 +26,48 @@ class UserListApiView(ListCreateAPIView):
 class UserDetailAPIView(RetrieveUpdateDestroyAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
+    # def put(self, request, *args, **kwargs):
+    #     item= self.request.query_params.get('item', None)
+    #     price = self.request.query_params.get('price', None)
+    #
+    #     if item == 'true':
+    #         if price is not None:
+    #             YOUR_DOMAIN = "http://127.0.0.1:8000"
+    #             checkout_session = stripe.checkout.Session.create(
+    #                 # payment_method_type=['card'],
+    #                 line_items=[
+    #                     {
+    #                         'price_data': {
+    #                             'currency': 'usd',
+    #                             'unit_amount': 30000,
+    #                             'product_data': {
+    #                                 'name': 'checkout',
+    #
+    #                             },
+    #                         },
+    #                         # Provide the exact Price ID (for example, pr_1234) of the product you want to sell
+    #                         # 'price': '{{PRICE_ID}}',
+    #                         'quantity': 1,
+    #                     },
+    #                 ],
+    #                 mode='payment',
+    #                 # success_url=YOUR_DOMAIN + '/success/',
+    #                 # cancel_url=YOUR_DOMAIN + '/cancel/',
+    #             )
+    #             # return JsonResponse({
+    #             #     'id': checkout_session.id
+    #             #
+    #             # })
+    #             return redirect(checkout_session.url, code=303)
+
+
+
+
+
+
+
+
+
 
 
 # class UserProfileDetailApiView(ListCreateAPIView):

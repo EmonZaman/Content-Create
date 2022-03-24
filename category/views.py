@@ -1,7 +1,10 @@
+
+
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.views import View
 from django.http import JsonResponse
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, ListView
 from .models import UserSubscription
 from .models import *
 # Create your views here.
@@ -42,8 +45,18 @@ def subscription(request):
     return render(request, 's.html')
 
 class SuccessView(TemplateView):
-
      template_name = "success.html"
+
+# class SuccessView(ListView):
+#     # context_object_name = 'userproject_list'
+#     template_name = "success.html"
+#     def get_queryset(self, request):
+#         current_user = request.user
+#         print( current_user.id)
+#         print(current_user.is_pro)
+#         current_user.is_pro= True
+#
+#         return current_user
 
 class CancelView(TemplateView):
      template_name = "cancel.html"
@@ -65,10 +78,23 @@ class CreateCheckoutSessionView(View):
     def post(self, request, *args, **kwargs):
         print("in create checkout session")
         # product_id= self.kwargs["pk"]
-        product = UserSubscription.objects.get(id=3)
-        print(product.price)
-        print(product.name)
-        print(product.user.username)
+        # product = UserSubscription.objects.get(id=3)
+        # print(product.price)
+        # print(product.name)
+        # print(product.user.username)
+        current_user = request.user
+        print( current_user.id)
+        print(current_user.is_pro)
+        current_user.is_pro= True
+        current_user.save()
+        print(current_user.is_pro)
+        print(current_user.pro_expiry_date)
+        expiry = datetime.now() + timedelta(30)
+        current_user.pro_expiry_date = expiry
+        print(current_user.pro_expiry_date)
+        current_user.save()
+
+
         YOUR_DOMAIN = "http://127.0.0.1:8000"
         checkout_session = stripe.checkout.Session.create(
             # payment_method_type=['card'],
@@ -76,9 +102,9 @@ class CreateCheckoutSessionView(View):
                 {
                     'price_data': {
                         'currency': 'usd',
-                        'unit_amount': product.price,
+                        'unit_amount': 30000,
                         'product_data': {
-                            'name': product.name,
+                            'name': 'checkout',
 
 
                         },
