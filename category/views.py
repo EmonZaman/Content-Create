@@ -123,3 +123,6 @@ class CreateCheckoutSessionView(View):
         #
         # })
         return redirect(checkout_session.url, code=303)
+
+
+
