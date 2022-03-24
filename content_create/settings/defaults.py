@@ -55,6 +55,7 @@ INSTALLED_APPS = [
     'cloudinary',
     'corsheaders',
 
+
     # 'django_filters',
     'rest_framework.authtoken',
     # 'drf-yasg'
@@ -75,6 +76,7 @@ AUTH_USER_MODEL = 'accounts.User'
 MIDDLEWARE = [
     # DebugToolbarMiddleware should be included as early as possible in the list. However,
     # it must come after any other middleware that encodes the response’s content, such as GZipMiddleware.
+     'corsheaders.middleware.CorsMiddleware',
     'debug_toolbar.middleware.DebugToolbarMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
@@ -84,7 +86,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
+
 
 
 
