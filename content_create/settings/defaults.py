@@ -52,7 +52,8 @@ INSTALLED_APPS = [
     "debug_toolbar",
     'rest_framework',
     'cloudinary_storage',
-    'cloudinary',    'corsheaders',
+    'cloudinary',
+    'corsheaders',
 
     # 'django_filters',
     'rest_framework.authtoken',
@@ -84,7 +85,8 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'corsheaders.middleware.CorsMiddleware',
-    'django.middleware.common.CommonMiddleware',
+
+
 
 ]
 
