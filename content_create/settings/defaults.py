@@ -52,7 +52,7 @@ INSTALLED_APPS = [
     "debug_toolbar",
     'rest_framework',
     'cloudinary_storage',
-    'cloudinary',
+    'cloudinary',    'corsheaders',
 
     # 'django_filters',
     'rest_framework.authtoken',
@@ -83,6 +83,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
 
 ]
 
@@ -103,7 +105,10 @@ TEMPLATES = [
         },
     },
 ]
-
+CORS_ALLOWED_ORIGINS = [
+    'http://localhost:3000',
+    'https://dashboard404.vercel.app',
+]
 WSGI_APPLICATION = 'content_create.wsgi.application'
 
 # Database
