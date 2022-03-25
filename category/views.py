@@ -1,9 +1,8 @@
-
-
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.views import View
 from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import TemplateView, ListView
 from .models import UserSubscription
 from .models import *
@@ -44,8 +43,12 @@ def subscription(request):
 
     return render(request, 's.html')
 
+
 class SuccessView(TemplateView):
-     template_name = "success.html"
+    template_name = "success.html"
+
+
+
 
 # class SuccessView(ListView):
 #     # context_object_name = 'userproject_list'
@@ -59,13 +62,14 @@ class SuccessView(TemplateView):
 #         return current_user
 
 class CancelView(TemplateView):
-     template_name = "cancel.html"
+    template_name = "cancel.html"
+
 
 class ProductLandingPageView(TemplateView):
     template_name = "landing.html"
 
     def get_context_data(self, **kwargs):
-        product= UserSubscription.objects.get(name="Test Product")
+        product = UserSubscription.objects.get(name="Test Product")
         context = super(ProductLandingPageView, self).get_context_data(**kwargs)
         context.update({
             "product": product,
@@ -82,20 +86,19 @@ class CreateCheckoutSessionView(View):
         # print(product.price)
         # print(product.name)
         # print(product.user.username)
-        current_user = request.user
-        print( current_user.id)
-        print(current_user.is_pro)
-        current_user.is_pro= True
-        current_user.save()
-        print(current_user.is_pro)
-        print(current_user.pro_expiry_date)
-        expiry = datetime.now() + timedelta(30)
-        current_user.pro_expiry_date = expiry
-        print(current_user.pro_expiry_date)
-        current_user.save()
+        # current_user = request.user
+        # print( current_user.id)
+        # print(current_user.is_pro)
+        # current_user.is_pro= True
+        # current_user.save()
+        # print(current_user.is_pro)
+        # print(current_user.pro_expiry_date)
+        # expiry = datetime.now() + timedelta(30)
+        # current_user.pro_expiry_date = expiry
+        # print(current_user.pro_expiry_date)
+        # current_user.save()
 
-
-        YOUR_DOMAIN = "http://127.0.0.1:8000"
+        YOUR_DOMAIN = "https://django-testing-app-check.herokuapp.com/"
         checkout_session = stripe.checkout.Session.create(
             # payment_method_type=['card'],
             line_items=[
@@ -105,7 +108,6 @@ class CreateCheckoutSessionView(View):
                         'unit_amount': 30000,
                         'product_data': {
                             'name': 'checkout',
-
 
                         },
                     },
@@ -123,6 +125,4 @@ class CreateCheckoutSessionView(View):
         #
         # })
         return redirect(checkout_session.url, code=303)
-
-
 
