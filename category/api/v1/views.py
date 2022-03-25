@@ -157,7 +157,6 @@ class StripeVerificationAPIView(APIView):
     @csrf_exempt
     def my_webhook_view(self, request):
         payload = request.data
-        print(request.META)
         sig_header = request.META['HTTP_STRIPE_SIGNATURE']
         event = None
         try:
@@ -204,6 +203,9 @@ class StripeVerificationAPIView(APIView):
     def fulfill_order(self, session):
         # TODO: fill me in
         print("Fulfilling order")
+        user = self.request.user
+        user.is_pro = True
+        user.save(update_fields=['is_pro'])
 
     def create_order(self, session):
         # TODO: fill me in

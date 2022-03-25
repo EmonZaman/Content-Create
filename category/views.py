@@ -98,7 +98,7 @@ class CreateCheckoutSessionView(View):
         # print(current_user.pro_expiry_date)
         # current_user.save()
 
-        YOUR_DOMAIN = "https://django-testing-app-check.herokuapp.com/"
+        YOUR_DOMAIN = "https://django-testing-app-check.herokuapp.com"
         checkout_session = stripe.checkout.Session.create(
             # payment_method_type=['card'],
             line_items=[
