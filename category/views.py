@@ -3,6 +3,7 @@ from django.shortcuts import render, redirect
 from django.views import View
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
+from django.http import HttpResponse
 from django.views.generic import TemplateView, ListView
 from .models import UserSubscription
 from .models import *
@@ -86,7 +87,7 @@ class CreateCheckoutSessionView(View):
         # print(product.price)
         # print(product.name)
         # print(product.user.username)
-        # current_user = request.user
+        current_user = request.user
         # print( current_user.id)
         # print(current_user.is_pro)
         # current_user.is_pro= True
@@ -98,7 +99,8 @@ class CreateCheckoutSessionView(View):
         # print(current_user.pro_expiry_date)
         # current_user.save()
 
-        YOUR_DOMAIN = "https://django-testing-app-check.herokuapp.com"
+        # YOUR_DOMAIN = "https://django-testing-app-check.herokuapp.com"
+        YOUR_DOMAIN = "http://127.0.0.1:8000"
         checkout_session = stripe.checkout.Session.create(
             # payment_method_type=['card'],
             line_items=[
@@ -116,13 +118,59 @@ class CreateCheckoutSessionView(View):
                     'quantity': 1,
                 },
             ],
+            metadata={
+                "current_user": current_user
+
+            },
             mode='payment',
             success_url=YOUR_DOMAIN + '/success/',
             cancel_url=YOUR_DOMAIN + '/cancel/',
         )
+
         # return JsonResponse({
         #     'id': checkout_session.id
         #
         # })
+        # print(checkout_session)
+
+
         return redirect(checkout_session.url, code=303)
 
+
+
+@csrf_exempt
+def stripe_webhook_view(request):
+    endpoint_secret= 'whsec_ed2c4b532bd6c36c87b878f1d1156ab13516e9c2f60108300fadf6ed6d687a36'
+    payload = request.body
+    sig_header = request.META['HTTP_STRIPE_SIGNATURE']
+    event = None
+
+    try:
+        event = stripe.Webhook.construct_event(
+            payload, sig_header, endpoint_secret
+        )
+    except ValueError as e:
+        # Invalid payload
+        return HttpResponse(status=400)
+    except stripe.error.SignatureVerificationError as e:
+        # Invalid signature
+        return HttpResponse(status=400)
+        # Handle the checkout.session.completed event
+    if event['type'] == 'checkout.session.completed':
+        session = event['data']['object']
+        # current_user = request.user.id
+        print('Alhamdulliah')
+        # print( current_user)
+        # print(current_user.is_pro)
+        # current_user.is_pro= True
+        # current_user.save()
+        # print('alhamdulliah')
+        # Fulfill the purchase...
+        CUSTOMER_EMAIL = session["customer_details"]["email"]
+        current_user = session["metadata"]["current_user"]
+        print(CUSTOMER_EMAIL)
+        print(current_user)
+
+        print(session)
+
+    return HttpResponse(status=200)
