@@ -1,4 +1,5 @@
 from django.contrib.auth.decorators import login_required
+from django.core.mail import send_mail
 from django.shortcuts import render, redirect
 from django.views import View
 from django.http import JsonResponse
@@ -87,7 +88,9 @@ class CreateCheckoutSessionView(View):
         # print(product.price)
         # print(product.name)
         # print(product.user.username)
-        current_user = request.user
+        current_user = request.user.id
+        print("checkout Session view")
+        print(current_user)
         # print( current_user.id)
         # print(current_user.is_pro)
         # current_user.is_pro= True
@@ -168,9 +171,27 @@ def stripe_webhook_view(request):
         # Fulfill the purchase...
         CUSTOMER_EMAIL = session["customer_details"]["email"]
         current_user = session["metadata"]["current_user"]
+        print(current_user)
+        user = User.objects.get(id= current_user)
+        print(user.is_pro)
+        user.is_pro= True
+        print(user.pro_expiry_date)
+        expiry = datetime.now() + timedelta(30)
+        user.pro_expiry_date = expiry
+        print(user.pro_expiry_date)
+        user.save()
+
+
         print(CUSTOMER_EMAIL)
         print(current_user)
+        send_mail(
+            subject= "subcription",
+            message= "thanks for your purchase",
+            recipient_list= [CUSTOMER_EMAIL],
+            from_email= "emon@gmail.com",
 
-        print(session)
+        )
+
+        # print(session)
 
     return HttpResponse(status=200)
