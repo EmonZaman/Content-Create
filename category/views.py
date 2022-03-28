@@ -50,8 +50,6 @@ class SuccessView(TemplateView):
     template_name = "success.html"
 
 
-
-
 # class SuccessView(ListView):
 #     # context_object_name = 'userproject_list'
 #     template_name = "success.html"
@@ -102,8 +100,8 @@ class CreateCheckoutSessionView(View):
         # print(current_user.pro_expiry_date)
         # current_user.save()
 
-        # YOUR_DOMAIN = "https://django-testing-app-check.herokuapp.com"
-        YOUR_DOMAIN = "http://127.0.0.1:8000"
+        YOUR_DOMAIN = "https://django-testing-app-check.herokuapp.com"
+        # YOUR_DOMAIN = "http://127.0.0.1:8000"
         checkout_session = stripe.checkout.Session.create(
             # payment_method_type=['card'],
             line_items=[
@@ -130,20 +128,12 @@ class CreateCheckoutSessionView(View):
             cancel_url=YOUR_DOMAIN + '/cancel/',
         )
 
-        # return JsonResponse({
-        #     'id': checkout_session.id
-        #
-        # })
-        # print(checkout_session)
-
-
         return redirect(checkout_session.url, code=303)
-
 
 
 @csrf_exempt
 def stripe_webhook_view(request):
-    endpoint_secret= 'whsec_ed2c4b532bd6c36c87b878f1d1156ab13516e9c2f60108300fadf6ed6d687a36'
+    endpoint_secret = 'whsec_ed2c4b532bd6c36c87b878f1d1156ab13516e9c2f60108300fadf6ed6d687a36'
     payload = request.body
     sig_header = request.META['HTTP_STRIPE_SIGNATURE']
     event = None
@@ -172,23 +162,22 @@ def stripe_webhook_view(request):
         CUSTOMER_EMAIL = session["customer_details"]["email"]
         current_user = session["metadata"]["current_user"]
         print(current_user)
-        user = User.objects.get(id= current_user)
+        user = User.objects.get(id=current_user)
         print(user.is_pro)
-        user.is_pro= True
+        user.is_pro = True
         print(user.pro_expiry_date)
         expiry = datetime.now() + timedelta(30)
         user.pro_expiry_date = expiry
         print(user.pro_expiry_date)
         user.save()
 
-
         print(CUSTOMER_EMAIL)
         print(current_user)
         send_mail(
-            subject= "subcription",
-            message= "thanks for your purchase",
-            recipient_list= [CUSTOMER_EMAIL],
-            from_email= "emon@gmail.com",
+            subject="subcription",
+            message="thanks for your purchase",
+            recipient_list=[CUSTOMER_EMAIL],
+            from_email="emon@gmail.com",
 
         )
 
