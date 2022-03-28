@@ -17,5 +17,5 @@ urlpatterns = [
     path('count/', UserAndSubscriberCountAPIView.as_view(),
          name="Detail Count"),
     path('create-checkout-session/', CreateCheckoutSessionAPIView.as_view(), name="checkout-session_api"),
-    # path('stripe-verification/', StripeVerificationAPIView.as_view(), name='stripe-verification')
+    path('stripe-verification/', StripeVerificationAPIView.as_view(), name='stripe-verification')
 ]
