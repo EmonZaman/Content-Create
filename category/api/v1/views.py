@@ -164,67 +164,61 @@ class CreateCheckoutSessionAPIView(GenericAPIView):
         return Response(checkout_session.url, status=303)
 
 #
-class StripeVerificationAPIView(APIView):
-    # endpoint_secret = "whsec_otfYl15RSy80qpy5SUhImYatXBYxhkMW"
-
-    def post(self, request):
-        self.stripe_webhook_view(request)
 
 
+@csrf_exempt
+def stripe_webhook_view(request):
+    endpoint_secret = 'whsec_ed2c4b532bd6c36c87b878f1d1156ab13516e9c2f60108300fadf6ed6d687a36'
+    payload = request.body
+    sig_header = request.META['HTTP_STRIPE_SIGNATURE']
+    event = None
 
-    @csrf_exempt
-    def stripe_webhook_view(request):
-        endpoint_secret = 'whsec_ed2c4b532bd6c36c87b878f1d1156ab13516e9c2f60108300fadf6ed6d687a36'
-        payload = request.body
-        sig_header = request.META['HTTP_STRIPE_SIGNATURE']
-        event = None
-
-        try:
-            event = stripe.Webhook.construct_event(
-                payload, sig_header, endpoint_secret
-            )
-        except ValueError as e:
+    try:
+        event = stripe.Webhook.construct_event(
+            payload, sig_header, endpoint_secret
+        )
+    except ValueError as e:
             # Invalid payload
-            return HttpResponse(status=400)
-        except stripe.error.SignatureVerificationError as e:
+        return HttpResponse(status=400)
+    except stripe.error.SignatureVerificationError as e:
             # Invalid signature
-            return HttpResponse(status=400)
+        return HttpResponse(status=400)
             # Handle the checkout.session.completed event
-        if event['type'] == 'checkout.session.completed':
-            session = event['data']['object']
+    if event['type'] == 'checkout.session.completed':
+        session = event['data']['object']
             # current_user = request.user.id
-            print('Alhamdulliah')
+        print('Alhamdulliah')
             # print( current_user)
             # print(current_user.is_pro)
             # current_user.is_pro= True
             # current_user.save()
             # print('alhamdulliah')
             # Fulfill the purchase...
-            CUSTOMER_EMAIL = session["customer_details"]["email"]
-            current_user = session["metadata"]["current_user"]
-            print(current_user)
-            user = User.objects.get(id=current_user)
-            print(user.is_pro)
-            user.is_pro = True
-            print(user.pro_expiry_date)
-            expiry = datetime.now() + timedelta(30)
-            user.pro_expiry_date = expiry
-            print(user.pro_expiry_date)
-            user.save()
+        CUSTOMER_EMAIL = session["customer_details"]["email"]
+        current_user = session["metadata"]["current_user"]
+        print(current_user)
+        user = User.objects.get(id=current_user)
+        print(user.is_pro)
+        user.is_pro = True
+        print(user.pro_expiry_date)
+        expiry = datetime.now() + timedelta(30)
+        user.pro_expiry_date = expiry
+        print(user.pro_expiry_date)
+        user.save()
 
-            print(CUSTOMER_EMAIL)
-            print(current_user)
-            send_mail(
-                subject="subcription",
-                message="thanks for your purchase",
-                recipient_list=[CUSTOMER_EMAIL],
-                from_email="emon@gmail.com",
+        print(CUSTOMER_EMAIL)
+        print(current_user)
+        send_mail(
+            subject="subcription",
+            message="thanks for your purchase",
+            recipient_list=[CUSTOMER_EMAIL],
+            from_email="emon@gmail.com",
 
-            )
+        )
 
             # print(session)
 
-        return HttpResponse(status=200)
+    return HttpResponse(status=200)
    # @csrf_exempt
     # def my_webhook_view(self, request):
     #     payload = request.data

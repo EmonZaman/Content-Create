@@ -1,7 +1,7 @@
 from django.urls import path
 from category.api.v1.views import CategoryDetailAPIView, CategoryListApiView, VideoListApiView, VideoDetailAPIView, \
     category_content, LastSevenDaysUserListAPIView, LastSevenDaySubscriberListAPIView, UserAndSubscriberCountAPIView, \
-   category_content_count, CreateCheckoutSessionAPIView
+    category_content_count, CreateCheckoutSessionAPIView, stripe_webhook_view
 
 urlpatterns = [
     path('categories/', CategoryListApiView.as_view(), name="category_list"),
@@ -17,5 +17,6 @@ urlpatterns = [
     path('count/', UserAndSubscriberCountAPIView.as_view(),
          name="Detail Count"),
     path('create-checkout-session/', CreateCheckoutSessionAPIView.as_view(), name="checkout-session_api"),
-    path('stripe-verification/', StripeVerificationAPIView.as_view(), name='stripe-verification')
+    # path('stripe-verification/', StripeVerificationAPIView.as_view(), name='stripe-verification')
+    path('webhooks/stripe', stripe_webhook_view, name="stripe_webhook-api"),
 ]
