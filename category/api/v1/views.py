@@ -44,9 +44,20 @@ class category_content(ListAPIView):
 
         return Video.objects.filter(category__name=category)
 
+class category_content_count(GenericAPIView):
+    serializer_class = VideoSerializer
+
+    def get(self, request, *args, **kwargs):
+        response = {}
+        category = self.request.query_params.get('category', None)
+
+        response["this_category_found_videos"]=Video.objects.filter(category__name=category).count()
+        return Response(response)
+
 
 class LastSevenDaysUserListAPIView(ListCreateAPIView):
     serializer_class = UserSerializer
+
 
     def get_queryset(self):
         queryset = User.objects.filter(date_joined__gte=datetime.now() - timedelta(days=7))

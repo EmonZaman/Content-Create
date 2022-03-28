@@ -12,4 +12,5 @@ class VideoSerializer(serializers.ModelSerializer):
     class Meta:
         model = Video
         fields = '__all__'
+        depth = 1
 
