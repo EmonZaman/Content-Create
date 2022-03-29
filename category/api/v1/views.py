@@ -112,11 +112,12 @@ class UserAndSubscriberCountAPIView(GenericAPIView):
 
 
 class CreateCheckoutSessionAPIView(GenericAPIView):
+
     def post(self, request, *args, **kwargs):
         print("in create checkout session")
 
         YOUR_DOMAIN = "https://django-testing-app-check.herokuapp.com"
-        current_user = request.user.id
+        current_user = self.request.user.id
         print("checkout Session view")
         print(current_user)
         # print( current_user.id)
@@ -261,7 +262,7 @@ def stripe_webhook_view(request):
 #     return Response(status=200)
 #
 # def fulfill_order(self, session):
-#     # TODO: fill me in
+#
 #     print("Fulfilling order")
 #     user = self.request.user
 #     user.is_pro = True

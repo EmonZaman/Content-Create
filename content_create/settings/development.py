@@ -29,7 +29,7 @@ MEDIA_ROOT = BASE_DIR / 'media'
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
 )
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 # STATICFILES_DIRS = [BASE_DIR / 'static_local']
 # storage for cloudinary

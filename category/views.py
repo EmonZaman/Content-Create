@@ -100,8 +100,8 @@ class CreateCheckoutSessionView(View):
         # print(current_user.pro_expiry_date)
         # current_user.save()
 
-        YOUR_DOMAIN = "https://django-testing-app-check.herokuapp.com"
-        # YOUR_DOMAIN = "http://127.0.0.1:8000"
+        # YOUR_DOMAIN = "https://django-testing-app-check.herokuapp.com"
+        YOUR_DOMAIN = "http://127.0.0.1:8000"
         checkout_session = stripe.checkout.Session.create(
             # payment_method_type=['card'],
             line_items=[
@@ -159,28 +159,28 @@ def stripe_webhook_view(request):
         # current_user.save()
         # print('alhamdulliah')
         # Fulfill the purchase...
-        CUSTOMER_EMAIL = session["customer_details"]["email"]
-        current_user = session["metadata"]["current_user"]
-        print(current_user)
-        user = User.objects.get(id=current_user)
-        print(user.is_pro)
-        user.is_pro = True
-        print(user.pro_expiry_date)
-        expiry = datetime.now() + timedelta(30)
-        user.pro_expiry_date = expiry
-        print(user.pro_expiry_date)
-        user.save()
+        # CUSTOMER_EMAIL = session["customer_details"]["email"]
+        # current_user = session["metadata"]["current_user"]
+        # print(current_user)
+        # user = User.objects.get(id=current_user)
+        # print(user.is_pro)
+        # user.is_pro = True
+        # print(user.pro_expiry_date)
+        # expiry = datetime.now() + timedelta(30)
+        # user.pro_expiry_date = expiry
+        # print(user.pro_expiry_date)
+        # user.save()
+        #
+        # print(CUSTOMER_EMAIL)
+        # print(current_user)
+        # send_mail(
+        #     subject="subcription",
+        #     message="thanks for your purchase",
+        #     recipient_list=[CUSTOMER_EMAIL],
+        #     from_email="emon@gmail.com",
+        #
+        # )
 
-        print(CUSTOMER_EMAIL)
-        print(current_user)
-        send_mail(
-            subject="subcription",
-            message="thanks for your purchase",
-            recipient_list=[CUSTOMER_EMAIL],
-            from_email="emon@gmail.com",
-
-        )
-
-        # print(session)
+        print(session)
 
     return HttpResponse(status=200)
