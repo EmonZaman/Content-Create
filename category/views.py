@@ -101,7 +101,7 @@ class CreateCheckoutSessionView(View):
         # current_user.save()
 
         # YOUR_DOMAIN = "https://django-testing-app-check.herokuapp.com"
-        YOUR_DOMAIN = "http://127.0.0.1:8000"
+        YOUR_DOMAIN = "http://127.0.0.1:8000/category"
         checkout_session = stripe.checkout.Session.create(
             # payment_method_type=['card'],
             line_items=[
