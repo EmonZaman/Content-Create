@@ -27,8 +27,15 @@ class CategoryDetailAPIView(RetrieveUpdateDestroyAPIView):
 
 
 class VideoListApiView(ListCreateAPIView):
-    queryset = Video.objects.all()
     serializer_class = VideoSerializer
+
+    def get_queryset(self):
+        queryset = Video.objects.all()
+        category = self.request.query_params.get('category', None)
+        if category is not None:
+            return Video.objects.filter(category__name=category)
+        return queryset
+
     # parser_classes = (FormParser, MultiPartParser)
 
 
@@ -37,13 +44,13 @@ class VideoDetailAPIView(RetrieveUpdateDestroyAPIView):
     serializer_class = VideoSerializer
 
 
-class category_content(ListAPIView):
-    serializer_class = VideoSerializer
-
-    def get_queryset(self):
-        category = self.request.query_params.get('category', None)
-
-        return Video.objects.filter(category__name=category)
+# class category_content(ListAPIView):
+#     serializer_class = VideoSerializer
+#
+#     def get_queryset(self):
+#         category = self.request.query_params.get('category', None)
+#
+#         return Video.objects.filter(category__name=category)
 
 
 class category_content_count(GenericAPIView):
@@ -112,24 +119,12 @@ class UserAndSubscriberCountAPIView(GenericAPIView):
 
 
 class CreateCheckoutSessionAPIView(GenericAPIView):
-
     def post(self, request, *args, **kwargs):
         print("in create checkout session")
-
         YOUR_DOMAIN = "https://django-testing-app-check.herokuapp.com"
         current_user = self.request.user.id
         print("checkout Session view")
         print(current_user)
-        # print( current_user.id)
-        # print(current_user.is_pro)
-        # current_user.is_pro= True
-        # current_user.save()
-        # print(current_user.is_pro)
-        # print(current_user.pro_expiry_date)
-        # expiry = datetime.now() + timedelta(30)
-        # current_user.pro_expiry_date = expiry
-        # print(current_user.pro_expiry_date)
-        # current_user.save()
         checkout_session = stripe.checkout.Session.create(
             # payment_method_type=['card'],
             line_items=[
@@ -139,7 +134,6 @@ class CreateCheckoutSessionAPIView(GenericAPIView):
                         'unit_amount': 30000,
                         'product_data': {
                             'name': 'checkout',
-
                         },
                     },
                     # Provide the exact Price ID (for example, pr_1234) of the product you want to sell
@@ -149,18 +143,12 @@ class CreateCheckoutSessionAPIView(GenericAPIView):
             ],
             metadata={
                 "current_user": current_user
-
             },
             mode='payment',
             success_url=YOUR_DOMAIN + '/success/',
             cancel_url=YOUR_DOMAIN + '/cancel/',
         )
-
         return Response(checkout_session.url, status=303)
-
-
-#
-
 
 @csrf_exempt
 def stripe_webhook_view(request):
@@ -168,7 +156,6 @@ def stripe_webhook_view(request):
     payload = request.body
     sig_header = request.META['HTTP_STRIPE_SIGNATURE']
     event = None
-
     try:
         event = stripe.Webhook.construct_event(
             payload, sig_header, endpoint_secret
@@ -184,12 +171,6 @@ def stripe_webhook_view(request):
         session = event['data']['object']
         # current_user = request.user.id
         print('Alhamdulliah')
-        # print( current_user)
-        # print(current_user.is_pro)
-        # current_user.is_pro= True
-        # current_user.save()
-        # print('alhamdulliah')
-        # Fulfill the purchase...
         CUSTOMER_EMAIL = session["customer_details"]["email"]
         current_user = session["metadata"]["current_user"]
         print(current_user)
@@ -201,7 +182,6 @@ def stripe_webhook_view(request):
         user.pro_expiry_date = expiry
         print(user.pro_expiry_date)
         user.save()
-
         print(CUSTOMER_EMAIL)
         print(current_user)
         send_mail(
@@ -211,9 +191,7 @@ def stripe_webhook_view(request):
             from_email="emon@gmail.com",
 
         )
-
-        # print(session)
-
+        print(session)
     return HttpResponse(status=200)
 # @csrf_exempt
 # def my_webhook_view(self, request):
