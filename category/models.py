@@ -17,7 +17,8 @@ def video_upload(self, filename):
 class Category(BaseModel):
     name = models.CharField(max_length=200, verbose_name=_('category name'))
     description = models.TextField(blank=True, verbose_name=_('category description'))
-
+    category_thumbnail = models.ImageField(upload_to="media/", verbose_name=_('category thumbnail'), blank=True,
+                                    null=True)
     class Meta:
         verbose_name = _('Category')
         verbose_name_plural = _('Categories')
@@ -32,6 +33,8 @@ class Video(BaseModel):
     description = models.TextField(blank=True, null=True, verbose_name=_('video description'))
     video_upload_media = models.FileField(upload_to="media/", verbose_name=_('video upload media'), null=True,
                                           blank=True)
+    videos_thumbnail = models.ImageField(upload_to="media/", verbose_name=_('videos thumbnail'), blank=True,
+                                           null=True)
     youtube_video_link = models.URLField(max_length=200, verbose_name=_('Youtube video link'), null=True, blank=True)
     video_oid = models.CharField(max_length=200, blank=True, null=True, verbose_name=_('Video oid'))
     # likes = models.ManyToManyField(User, verbose_name=_('video likes'), related_name='video_likes')
