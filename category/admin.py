@@ -1,9 +1,12 @@
 from django.contrib import admin
-from .models import Category, Video, UserSubscription
+from .models import Category, Video, UserSubscription, VideoLikes, SaveVideos
+
+
 # Register your models here.
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
     pass
+
 
 @admin.register(Video)
 class VideoAdmin(admin.ModelAdmin):
@@ -14,3 +17,12 @@ class VideoAdmin(admin.ModelAdmin):
 class UserSubscriptionAdmin(admin.ModelAdmin):
     pass
 
+
+@admin.register(VideoLikes)
+class VideoLikesAdmin(admin.ModelAdmin):
+    pass
+
+
+@admin.register(SaveVideos)
+class SaveVideosAdmin(admin.ModelAdmin):
+    pass

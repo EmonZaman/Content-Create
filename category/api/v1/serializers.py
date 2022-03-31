@@ -1,4 +1,4 @@
-from category.models import Category, Video
+from category.models import Category, Video, VideoLikes, SaveVideos
 from rest_framework import serializers
 
 
@@ -12,5 +12,14 @@ class VideoSerializer(serializers.ModelSerializer):
     class Meta:
         model = Video
         fields = '__all__'
-        depth = 1
+        # depth = 1
 
+
+class VideolikeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = VideoLikes
+        fields = '__all__'
+class SaveVideoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = SaveVideos
+        fields = '__all__'

@@ -1,14 +1,17 @@
 from django.core.mail import send_mail
+from django.db.models import Q
 from django.views.decorators.csrf import csrf_exempt
+from rest_framework import status
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView, ListAPIView, GenericAPIView
 from rest_framework.parsers import FormParser, MultiPartParser
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from django.http import HttpResponse
 from accounts.api.v1.serializers import UserSerializer
 from accounts.models import User
-from category.api.v1.serializers import CategorySerializer, VideoSerializer
-from category.models import Category, Video
+from category.api.v1.serializers import CategorySerializer, VideoSerializer, VideolikeSerializer, SaveVideoSerializer
+from category.models import Category, Video, VideoLikes, SaveVideos
 
 from datetime import datetime, timedelta
 import stripe
@@ -17,16 +20,19 @@ stripe.api_key = 'sk_test_51KeXrmExsbXRovz76iC19UwNt6uq4XfEjMZIIwfHoz8JW6Sq9UFLk
 
 
 class CategoryListApiView(ListCreateAPIView):
+    # permission_classes = (IsAuthenticated,)
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
 
 
 class CategoryDetailAPIView(RetrieveUpdateDestroyAPIView):
+    # permission_classes = (IsAuthenticated,)
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
 
 
 class VideoListApiView(ListCreateAPIView):
+    permission_classes = (IsAuthenticated,)
     serializer_class = VideoSerializer
 
     def get_queryset(self):
@@ -40,8 +46,38 @@ class VideoListApiView(ListCreateAPIView):
 
 
 class VideoDetailAPIView(RetrieveUpdateDestroyAPIView):
+    # permission_classes = (IsAuthenticated,)
     queryset = Video.objects.all()
     serializer_class = VideoSerializer
+
+
+class LikeUpdate(RetrieveUpdateDestroyAPIView):
+    serializer_class = VideolikeSerializer
+    queryset = VideoLikes.objects.all()
+
+class SaveVideosUpdate(RetrieveUpdateDestroyAPIView):
+    serializer_class = SaveVideoSerializer
+    queryset = SaveVideos.objects.all()
+
+    # def get(self, request, pk):
+    #     video = Video.objects.filter(pk=pk)
+    #     like_count = video.likevideos.count()
+    #     serializer = VideolikeSerializer(like_count, many=True)
+    #     return Response(serializer.data)
+    #
+    # def post(self, request, pk):
+    #     likeusers = User.objects.get(id=2)
+    #     likevideo = Video.objects.filter(pk=pk)
+    #     check = VideoLikes.objects.filter(Q(likeusers=likeusers) & Q(likevideo = likevideo.last()))
+    #     if (check.exists()):
+    #         return Response({
+    #             "status": status.HTTP_400_BAD_REQUEST,
+    #             "message": "Already Liked"
+    #         })
+    #     new_like = VideoLikes.objects.create(likeusers=likeusers, likevideo=likevideo.last())
+    #     new_like.save()
+    #     serializer = VideolikeSerializer(new_like)
+    #     return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
 # class category_content(ListAPIView):
@@ -149,6 +185,7 @@ class CreateCheckoutSessionAPIView(GenericAPIView):
             cancel_url=YOUR_DOMAIN + '/cancel/',
         )
         return Response(checkout_session.url, status=303)
+
 
 @csrf_exempt
 def stripe_webhook_view(request):

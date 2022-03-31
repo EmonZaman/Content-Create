@@ -34,12 +34,14 @@ class Video(BaseModel):
                                           blank=True)
     youtube_video_link = models.URLField(max_length=200, verbose_name=_('Youtube video link'), null=True, blank=True)
     video_oid = models.CharField(max_length=200, blank=True, null=True, verbose_name=_('Video oid'))
-
-    # file = CloudinaryField("Video",
-    #                        overwrite=True,
-    #                        resource_type="video",
-    #                        transformation={"quality": "auto:eco"},
-    #                        )
+    # likes = models.ManyToManyField(User, verbose_name=_('video likes'), related_name='video_likes')
+    # views = models.ManyToManyField(User, related_name='video_views')
+    #
+    # def total_likes(self):
+    #     return self.likes.count()
+    #
+    # def total_views(self):
+    #     return self.views.count()
 
     class Meta:
         verbose_name = _('Video')
@@ -48,6 +50,27 @@ class Video(BaseModel):
     def __str__(self):
         return f"{self.category.name}"
 
+class VideoLikes(models.Model):
+    likeusers = models.ManyToManyField(User,verbose_name=_('liked user id list'))
+    likevideo = models.OneToOneField(Video,on_delete=models.CASCADE,null=True,verbose_name=_('video id'))
+    class Meta:
+        verbose_name = _('VideoLike')
+        verbose_name_plural = _('VideoLikes')
+
+    def __str__(self):
+        return f"{self.likevideo}"
+
+class SaveVideos(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, verbose_name=_('user id'))
+    video = models.ManyToManyField(Video
+                                   ,verbose_name=_('saved videos id list'))
+
+    class Meta:
+        verbose_name = _('SaveVideo')
+        verbose_name_plural = _('SaveVideos')
+
+    def __str__(self):
+        return f"{self.video.name}"
 
 class UserSubscription(BaseModel):
     user = models.OneToOneField(User, verbose_name=_('Auth User'), on_delete=models.CASCADE)
@@ -55,7 +78,6 @@ class UserSubscription(BaseModel):
     is_pro = models.BooleanField(default=False, verbose_name=_('User is pro or not'))
     pro_expiry_date = models.DateTimeField(null=True, verbose_name=_('Subscription expiry date'), blank=True)
     price = models.IntegerField(verbose_name=_('Subscription price'), default=0)
-
     class Meta:
         verbose_name = _('UserSubscription')
         verbose_name_plural = _('UserSubscriptions')
