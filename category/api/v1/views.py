@@ -55,6 +55,7 @@ class LikeUpdate(RetrieveUpdateDestroyAPIView):
     serializer_class = VideolikeSerializer
     queryset = VideoLikes.objects.all()
 
+
 class SaveVideosUpdate(RetrieveUpdateDestroyAPIView):
     serializer_class = SaveVideoSerializer
     queryset = SaveVideos.objects.all()
@@ -154,15 +155,19 @@ class UserAndSubscriberCountAPIView(GenericAPIView):
         return Response(response)
 
 
-class CreateCheckoutSessionAPIView(GenericAPIView):
+class StripeCreateCheckoutSessionAPIView(APIView):
+    permission_classes = (IsAuthenticated,)
+
     def post(self, request, *args, **kwargs):
         print("in create checkout session")
-        YOUR_DOMAIN = "https://django-testing-app-check.herokuapp.com"
-        current_user = self.request.user.id
+        YOUR_DOMAIN = "https://django-testing-app-check.herokuapp.com/category"
+        current_user = self.request.user
         print("checkout Session view")
         print(current_user)
         checkout_session = stripe.checkout.Session.create(
-            # payment_method_type=['card'],
+            payment_method_types=['card'],
+            success_url=YOUR_DOMAIN + "/success?session_id={CHECKOUT_SESSION_ID}",
+            cancel_url="https://example.com/cancel",
             line_items=[
                 {
                     'price_data': {
@@ -180,56 +185,70 @@ class CreateCheckoutSessionAPIView(GenericAPIView):
             metadata={
                 "current_user": current_user
             },
-            mode='payment',
-            success_url=YOUR_DOMAIN + '/success/',
-            cancel_url=YOUR_DOMAIN + '/cancel/',
+
+            mode="payment",
         )
+        # have to edit filed
+
         return Response(checkout_session.url, status=303)
 
 
-@csrf_exempt
-def stripe_webhook_view(request):
-    endpoint_secret = 'whsec_ed2c4b532bd6c36c87b878f1d1156ab13516e9c2f60108300fadf6ed6d687a36'
-    payload = request.body
-    sig_header = request.META['HTTP_STRIPE_SIGNATURE']
-    event = None
-    try:
-        event = stripe.Webhook.construct_event(
-            payload, sig_header, endpoint_secret
+class StripeSuccessAPIView(GenericAPIView):
+    def get(self, request, *args, **kwargs):
+        session_id = self.request.query_params.get('session_id', None)
+        response = stripe.checkout.Session.retrieve(
+            session_id,
         )
-    except ValueError as e:
-        # Invalid payload
-        return HttpResponse(status=400)
-    except stripe.error.SignatureVerificationError as e:
-        # Invalid signature
-        return HttpResponse(status=400)
-        # Handle the checkout.session.completed event
-    if event['type'] == 'checkout.session.completed':
-        session = event['data']['object']
-        # current_user = request.user.id
-        print('Alhamdulliah')
-        CUSTOMER_EMAIL = session["customer_details"]["email"]
-        current_user = session["metadata"]["current_user"]
-        print(current_user)
-        user = User.objects.get(id=current_user)
-        print(user.is_pro)
-        user.is_pro = True
-        print(user.pro_expiry_date)
-        expiry = datetime.now() + timedelta(30)
-        user.pro_expiry_date = expiry
-        print(user.pro_expiry_date)
-        user.save()
-        print(CUSTOMER_EMAIL)
-        print(current_user)
-        send_mail(
-            subject="subcription",
-            message="thanks for your purchase",
-            recipient_list=[CUSTOMER_EMAIL],
-            from_email="emon@gmail.com",
+        if (response.status == "complete"):
 
-        )
-        print(session)
-    return HttpResponse(status=200)
+            return Response("Your payment is completed")
+
+        else:
+            return Response("payment not completed")
+
+# @csrf_exempt
+# def stripe_webhook_view(request):
+#     endpoint_secret = 'whsec_ed2c4b532bd6c36c87b878f1d1156ab13516e9c2f60108300fadf6ed6d687a36'
+#     payload = request.body
+#     sig_header = request.META['HTTP_STRIPE_SIGNATURE']
+#     event = None
+#     try:
+#         event = stripe.Webhook.construct_event(
+#             payload, sig_header, endpoint_secret
+#         )
+#     except ValueError as e:
+#         # Invalid payload
+#         return HttpResponse(status=400)
+#     except stripe.error.SignatureVerificationError as e:
+#         # Invalid signature
+#         return HttpResponse(status=400)
+#         # Handle the checkout.session.completed event
+#     if event['type'] == 'checkout.session.completed':
+#         session = event['data']['object']
+#         # current_user = request.user.id
+#         print('Alhamdulliah')
+#         CUSTOMER_EMAIL = session["customer_details"]["email"]
+#         current_user = session["metadata"]["current_user"]
+#         print(current_user)
+#         user = User.objects.get(id=current_user)
+#         print(user.is_pro)
+#         user.is_pro = True
+#         print(user.pro_expiry_date)
+#         expiry = datetime.now() + timedelta(30)
+#         user.pro_expiry_date = expiry
+#         print(user.pro_expiry_date)
+#         user.save()
+#         print(CUSTOMER_EMAIL)
+#         print(current_user)
+#         send_mail(
+#             subject="subcription",
+#             message="thanks for your purchase",
+#             recipient_list=[CUSTOMER_EMAIL],
+#             from_email="emon@gmail.com",
+#
+#         )
+#         print(session)
+#     return HttpResponse(status=200)
 # @csrf_exempt
 # def my_webhook_view(self, request):
 #     payload = request.data
