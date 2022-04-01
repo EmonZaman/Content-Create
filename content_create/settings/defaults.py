@@ -55,7 +55,6 @@ INSTALLED_APPS = [
     'cloudinary',
     'corsheaders',
 
-
     # 'django_filters',
     'rest_framework.authtoken',
     # 'drf-yasg'
@@ -88,9 +87,6 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-
-
-
 
 ]
 
@@ -126,7 +122,7 @@ AUTHENTICATION_BACKENDS = [
     'accounts.backends.email_backend.EmailBackend'
 
 ]
-ALLOWED_HOSTS=['*']
+ALLOWED_HOSTS = ['*']
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:3000',
@@ -211,6 +207,9 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.TokenAuthentication',
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ],
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.AllowAny',
+    ),
     'DEFAULT_RENDERER_CLASSES': [
         'rest_framework.renderers.JSONRenderer',
         'rest_framework.renderers.BrowsableAPIRenderer',
