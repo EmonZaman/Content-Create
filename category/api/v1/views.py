@@ -161,7 +161,7 @@ class StripeCreateCheckoutSessionAPIView(APIView):
     def post(self, request, *args, **kwargs):
         print("in create checkout session")
         YOUR_DOMAIN = "https://django-testing-app-check.herokuapp.com/category"
-        current_user = self.request.user
+        current_user = self.request.user.id
         print("checkout Session view")
         print(current_user)
         checkout_session = stripe.checkout.Session.create(
@@ -200,8 +200,20 @@ class StripeSuccessAPIView(GenericAPIView):
             session_id,
         )
         if (response.status == "complete"):
+            print('Alhamdulliah')
+            print(response.customer_details.email)
+            print(response.customer_details.name)
+            user = User.objects.get(id=response.metadata.current_user)
+            print(user.is_pro)
+            user.is_pro = True
+            print(user.pro_expiry_date)
+            expiry = datetime.now() + timedelta(30)
+            user.pro_expiry_date = expiry
+            print(user.pro_expiry_date)
+            user.save()
+            print(user.is_pro)
 
-            return Response("Your payment is completed")
+            return Response(response)
 
         else:
             return Response("payment not completed")
