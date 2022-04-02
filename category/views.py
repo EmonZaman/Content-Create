@@ -139,19 +139,21 @@ def stripe_webhook_view(request):
     payload = request.body
     sig_header = request.META['HTTP_STRIPE_SIGNATURE']
     event = None
-    print(payload)
 
     try:
+        print(payload)
         event = stripe.Webhook.construct_event(
             payload, sig_header, endpoint_secret
         )
     except ValueError as e:
         # Invalid payload
+        print("payload string")
         return HttpResponse(status=400)
     except stripe.error.SignatureVerificationError as e:
         # Invalid signature
+        print("signature string")
         return HttpResponse(status=400)
-        # Handle the checkout.session.completed event
+    # Handle the checkout.session.completed event
     if event['type'] == 'checkout.session.completed':
         session = event['data']['object']
         # current_user = request.user.id
