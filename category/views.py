@@ -138,6 +138,7 @@ def stripe_webhook_view(request):
     endpoint_secret = 'whsec_ed2c4b532bd6c36c87b878f1d1156ab13516e9c2f60108300fadf6ed6d687a36'
     payload = request.body
     # sig_header = request.META['HTTP_STRIPE_SIGNATURE']
+    #changere
     event = None
 
     try:
