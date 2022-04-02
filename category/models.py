@@ -37,14 +37,6 @@ class Video(BaseModel):
                                            null=True)
     youtube_video_link = models.URLField(max_length=200, verbose_name=_('Youtube video link'), null=True, blank=True)
     video_oid = models.CharField(max_length=200, blank=True, null=True, verbose_name=_('Video oid'))
-    # likes = models.ManyToManyField(User, verbose_name=_('video likes'), related_name='video_likes')
-    # views = models.ManyToManyField(User, related_name='video_views')
-    #
-    # def total_likes(self):
-    #     return self.likes.count()
-    #
-    # def total_views(self):
-    #     return self.views.count()
 
     class Meta:
         verbose_name = _('Video')
@@ -55,7 +47,7 @@ class Video(BaseModel):
 
 class VideoLikes(models.Model):
     likeusers = models.ManyToManyField(User,verbose_name=_('liked user id list'))
-    likevideo = models.OneToOneField(Video,on_delete=models.CASCADE,null=True,verbose_name=_('video id'))
+    likevideo = models.OneToOneField(Video,on_delete=models.CASCADE,verbose_name=_('video id'))
     class Meta:
         verbose_name = _('VideoLike')
         verbose_name_plural = _('VideoLikes')
@@ -71,6 +63,19 @@ class SaveVideos(models.Model):
     class Meta:
         verbose_name = _('SaveVideo')
         verbose_name_plural = _('SaveVideos')
+
+    def __str__(self):
+        return f"{self.video.name}"
+
+
+class RecentShownVideos(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, verbose_name=_('user id'))
+    video = models.ManyToManyField(Video
+                                   ,verbose_name=_('saved videos id list'))
+
+    class Meta:
+        verbose_name = _('RecentShownVideo')
+        verbose_name_plural = _('RecentShownVideos')
 
     def __str__(self):
         return f"{self.video.name}"

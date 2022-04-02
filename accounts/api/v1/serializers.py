@@ -14,6 +14,8 @@ from django.dispatch import receiver
 from rest_framework.authtoken.models import Token
 from django.utils.translation import gettext as _
 
+from category.api.v1.serializers import VideolikeSerializer, SaveVideoSerializer, RecentShownSerializers
+
 
 class AccountsSerializer(serializers.ModelSerializer):
     class Meta:
@@ -65,12 +67,16 @@ class UserSerializer(serializers.ModelSerializer):
     # token = serializers.SerializerMethodField(read_only=True)
     token = serializers.SerializerMethodField()
 
-    # userprofile= UserProfileDetailSerializer()
+    savevideos = SaveVideoSerializer()
+    recentshownvideos= RecentShownSerializers()
+
 
     class Meta:
         model = User
+        fields = '__all__'
 
-        fields = "__all__"
+        # fields = ['country','profile_pic','savevideos','token','recentshownvideos','email','username',
+        #           'phone','content_choice','pro_expiry_date','gender','facebook','linked_in','full_name','age','language','is_pro','password','secondary_email']
         # fields = ['username', "email", "token", "password"]
         # exclude = ['password']
 

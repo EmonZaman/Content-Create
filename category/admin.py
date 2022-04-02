@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Category, Video, UserSubscription, VideoLikes, SaveVideos
+from .models import Category, Video, UserSubscription, VideoLikes, SaveVideos, RecentShownVideos
 
 
 # Register your models here.
@@ -25,4 +25,9 @@ class VideoLikesAdmin(admin.ModelAdmin):
 
 @admin.register(SaveVideos)
 class SaveVideosAdmin(admin.ModelAdmin):
+    pass
+
+
+@admin.register(RecentShownVideos)
+class RecentShownVideosAdmin(admin.ModelAdmin):
     pass

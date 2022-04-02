@@ -10,8 +10,9 @@ from rest_framework.views import APIView
 from django.http import HttpResponse
 from accounts.api.v1.serializers import UserSerializer
 from accounts.models import User
-from category.api.v1.serializers import CategorySerializer, VideoSerializer, VideolikeSerializer, SaveVideoSerializer
-from category.models import Category, Video, VideoLikes, SaveVideos
+from category.api.v1.serializers import CategorySerializer, VideoSerializer, VideolikeSerializer, SaveVideoSerializer, \
+    RecentShownSerializers
+from category.models import Category, Video, VideoLikes, SaveVideos, RecentShownVideos
 
 from datetime import datetime, timedelta
 import stripe
@@ -32,11 +33,14 @@ class CategoryDetailAPIView(RetrieveUpdateDestroyAPIView):
 
 
 class VideoListApiView(ListCreateAPIView):
-    permission_classes = (IsAuthenticated,)
+    # permission_classes = (IsAuthenticated,)
     serializer_class = VideoSerializer
+    # print(Video.y)
+
 
     def get_queryset(self):
         queryset = Video.objects.all()
+
         category = self.request.query_params.get('category', None)
         if category is not None:
             return Video.objects.filter(category__name=category)
@@ -50,6 +54,9 @@ class VideoDetailAPIView(RetrieveUpdateDestroyAPIView):
     queryset = Video.objects.all()
     serializer_class = VideoSerializer
 
+# class Like(ListCreateAPIView):
+#     serializer_class = VideolikeSerializer
+#     queryset = VideoLikes.objects.all()
 
 class LikeUpdate(RetrieveUpdateDestroyAPIView):
     serializer_class = VideolikeSerializer
@@ -59,6 +66,10 @@ class LikeUpdate(RetrieveUpdateDestroyAPIView):
 class SaveVideosUpdate(RetrieveUpdateDestroyAPIView):
     serializer_class = SaveVideoSerializer
     queryset = SaveVideos.objects.all()
+
+class RecentVideosUpdate(RetrieveUpdateDestroyAPIView):
+    erializer_class = RecentShownSerializers
+    queryset = RecentShownVideos.objects.all()
 
     # def get(self, request, pk):
     #     video = Video.objects.filter(pk=pk)
@@ -213,10 +224,11 @@ class StripeSuccessAPIView(GenericAPIView):
             user.save()
             print(user.is_pro)
 
-            return Response(response)
+            return Response(True)
 
         else:
-            return Response("payment not completed")
+            return Response(False)
+
 
 # @csrf_exempt
 # def stripe_webhook_view(request):
