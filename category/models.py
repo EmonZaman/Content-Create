@@ -43,7 +43,7 @@ class Video(BaseModel):
         verbose_name_plural = _('Videos')
 
     def __str__(self):
-        return f"{self.category.name}"
+        return f"{self.title}"
 
 class VideoLikes(models.Model):
     likeusers = models.ManyToManyField(User,verbose_name=_('liked user id list'))
