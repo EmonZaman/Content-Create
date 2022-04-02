@@ -9,6 +9,6 @@ urlpatterns = [
     path('landingpage/', ProductLandingPageView.as_view(), name="landing-page"),
     path('success/', SuccessView.as_view(), name="success-page"),
     path('cancel/', CancelView.as_view(), name="cancel-page"),
-    path('webhooks/stripe', stripe_webhook_view, name="stripe_webhook"),
+    path('webhooks/stripe/', stripe_webhook_view, name="stripe_webhook"),
 
 ]
