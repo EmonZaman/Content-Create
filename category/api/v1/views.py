@@ -57,18 +57,26 @@ class VideoDetailAPIView(RetrieveUpdateDestroyAPIView):
 # class Like(ListCreateAPIView):
 #     serializer_class = VideolikeSerializer
 #     queryset = VideoLikes.objects.all()
+class Like(ListCreateAPIView):
+    serializer_class = VideolikeSerializer
+    queryset = VideoLikes.objects.all()
+
 
 class LikeUpdate(RetrieveUpdateDestroyAPIView):
     serializer_class = VideolikeSerializer
     queryset = VideoLikes.objects.all()
 
-
+class SaveVideo(ListCreateAPIView):
+    serializer_class = SaveVideoSerializer
+    queryset = SaveVideos.objects.all()
 class SaveVideosUpdate(RetrieveUpdateDestroyAPIView):
     serializer_class = SaveVideoSerializer
     queryset = SaveVideos.objects.all()
-
+class RecentVideos(ListCreateAPIView):
+    serializer_class = RecentShownSerializers
+    queryset = RecentShownVideos.objects.all()
 class RecentVideosUpdate(RetrieveUpdateDestroyAPIView):
-    erializer_class = RecentShownSerializers
+    serializer_class = RecentShownSerializers
     queryset = RecentShownVideos.objects.all()
 
     # def get(self, request, pk):
