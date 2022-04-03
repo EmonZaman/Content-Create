@@ -67,8 +67,8 @@ class UserSerializer(serializers.ModelSerializer):
     # token = serializers.SerializerMethodField(read_only=True)
     token = serializers.SerializerMethodField()
 
-    savevideos = SaveVideoSerializer()
-    recentshownvideos= RecentShownSerializers()
+    savevideos = SaveVideoSerializer(read_only=True)
+    recentshownvideos= RecentShownSerializers(read_only=True)
 
 
     class Meta:

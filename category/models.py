@@ -43,17 +43,17 @@ class Video(BaseModel):
         verbose_name_plural = _('Videos')
 
     def __str__(self):
-        return f"{self.title}"
+        return f"{self.id} {self.title}"
 
 class VideoLikes(models.Model):
-    likeusers = models.ManyToManyField(User,verbose_name=_('liked user id list'))
-    likevideo = models.OneToOneField(Video,on_delete=models.CASCADE,verbose_name=_('video id'))
+    likeusers = models.ManyToManyField(User,null= True, verbose_name=_('liked user id list'))
+    likevideo = models.OneToOneField(Video,null=True, on_delete=models.CASCADE,verbose_name=_('video id'))
     class Meta:
         verbose_name = _('VideoLike')
         verbose_name_plural = _('VideoLikes')
 
     def __str__(self):
-        return f"{self.likevideo}"
+        return f"{self.likevideo.id}"
 
 class SaveVideos(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, verbose_name=_('user id'))
