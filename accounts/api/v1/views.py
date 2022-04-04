@@ -6,6 +6,7 @@ from allauth.socialaccount.providers.oauth2.client import OAuth2Client
 from django.contrib.auth import get_user_model
 from rest_framework import request, status
 from rest_framework.exceptions import ValidationError
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from django.utils.translation import gettext as _
@@ -61,15 +62,6 @@ class UserDetailAPIView(RetrieveUpdateDestroyAPIView):
     #             return redirect(checkout_session.url, code=303)
 
 
-
-
-
-
-
-
-
-
-
 # class UserProfileDetailApiView(ListCreateAPIView):
 #     queryset = UserProfile.objects.all()
 #     serializer_class = UserProfileDetailSerializer
@@ -107,6 +99,7 @@ class LoginAPIView(GenericAPIView):
 
 class CurrentUser(GenericAPIView):
     serializer_class = UserSerializer
+    permission_classes = [IsAuthenticated,]
 
     def get(self, request):
         current_user = request.user

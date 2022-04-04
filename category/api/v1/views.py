@@ -35,13 +35,19 @@ class CategoryDetailAPIView(RetrieveUpdateDestroyAPIView):
 class VideoListApiView(ListCreateAPIView):
     # permission_classes = (IsAuthenticated,)
     serializer_class = VideoSerializer
-    # print(Video.y)
 
+    # print(Video.y)
 
     def get_queryset(self):
         queryset = Video.objects.all()
-
         category = self.request.query_params.get('category', None)
+        recent, saved = self.request.query_params.get('recent'), self.request.query_params.get('saved')
+        print("saved ")
+        if recent is not None:
+            return self.request.user.recentshownvideos.video.all() if hasattr(self.request.user,
+                                                                              "recentshownvideos") else []
+        if saved is not None:
+            return self.request.user.savevideos.video.all() if hasattr(self.request.user, "savevideos") else []
         if category is not None:
             return Video.objects.filter(category__name=category)
         return queryset
@@ -51,8 +57,11 @@ class VideoListApiView(ListCreateAPIView):
 
 class VideoDetailAPIView(RetrieveUpdateDestroyAPIView):
     # permission_classes = (IsAuthenticated,)
-    queryset = Video.objects.all()
     serializer_class = VideoSerializer
+
+    def get_queryset(self):
+        return Video.objects.all()
+
 
 # class Like(ListCreateAPIView):
 #     serializer_class = VideolikeSerializer
@@ -66,15 +75,22 @@ class LikeUpdate(RetrieveUpdateDestroyAPIView):
     serializer_class = VideolikeSerializer
     queryset = VideoLikes.objects.all()
 
+
 class SaveVideo(ListCreateAPIView):
     serializer_class = SaveVideoSerializer
     queryset = SaveVideos.objects.all()
+
+
 class SaveVideosUpdate(RetrieveUpdateDestroyAPIView):
     serializer_class = SaveVideoSerializer
     queryset = SaveVideos.objects.all()
+
+
 class RecentVideos(ListCreateAPIView):
     serializer_class = RecentShownSerializers
     queryset = RecentShownVideos.objects.all()
+
+
 class RecentVideosUpdate(RetrieveUpdateDestroyAPIView):
     serializer_class = RecentShownSerializers
     queryset = RecentShownVideos.objects.all()
@@ -186,7 +202,7 @@ class StripeCreateCheckoutSessionAPIView(APIView):
         checkout_session = stripe.checkout.Session.create(
             payment_method_types=['card'],
             success_url=YOUR_DOMAIN + "/payment-success?session_id={CHECKOUT_SESSION_ID}",
-            cancel_url=YOUR_DOMAIN +"/payment-cancel/",
+            cancel_url=YOUR_DOMAIN + "/payment-cancel/",
             line_items=[
                 {
                     'price_data': {
@@ -236,7 +252,6 @@ class StripeSuccessAPIView(GenericAPIView):
 
         else:
             return Response(False)
-
 
 # @csrf_exempt
 # def stripe_webhook_view(request):
