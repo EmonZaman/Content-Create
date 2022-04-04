@@ -179,14 +179,14 @@ class StripeCreateCheckoutSessionAPIView(APIView):
 
     def post(self, request, *args, **kwargs):
         print("in create checkout session")
-        YOUR_DOMAIN = "https://django-testing-app-check.herokuapp.com/category"
+        YOUR_DOMAIN = "http://localhost:3000"
         current_user = self.request.user.id
         print("checkout Session view")
         print(current_user)
         checkout_session = stripe.checkout.Session.create(
             payment_method_types=['card'],
-            success_url=YOUR_DOMAIN + "/success?session_id={CHECKOUT_SESSION_ID}",
-            cancel_url="https://example.com/cancel",
+            success_url=YOUR_DOMAIN + "/payment-success?session_id={CHECKOUT_SESSION_ID}",
+            cancel_url=YOUR_DOMAIN +"/payment-cancel/",
             line_items=[
                 {
                     'price_data': {
