@@ -62,7 +62,7 @@ class VideoLikes(models.Model):
 class SaveVideos(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, verbose_name=_('user id'))
     video = models.ManyToManyField(Video
-                                   , verbose_name=_('saved videos id list'))
+                                   ,null=True,blank=True, verbose_name=_('saved videos id list'))
 
     class Meta:
         verbose_name = _('SaveVideo')
@@ -75,7 +75,7 @@ class SaveVideos(models.Model):
 class RecentShownVideos(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, verbose_name=_('user id'))
     video = models.ManyToManyField(Video
-                                   , verbose_name=_('saved videos id list'))
+                                   ,null=True, blank=True, verbose_name=_('saved videos id list'))
 
     class Meta:
         verbose_name = _('RecentShownVideo')

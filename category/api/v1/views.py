@@ -191,7 +191,7 @@ class UserAndSubscriberCountAPIView(GenericAPIView):
 
 
 class StripeCreateCheckoutSessionAPIView(APIView):
-    # permission_classes = (IsAuthenticated,)
+    permission_classes = (IsAuthenticated,)
 
     def post(self, request, *args, **kwargs):
         print("in create checkout session")
