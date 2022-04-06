@@ -21,7 +21,7 @@ stripe.api_key = 'sk_test_51KeXrmExsbXRovz76iC19UwNt6uq4XfEjMZIIwfHoz8JW6Sq9UFLk
 
 
 class CategoryListApiView(ListCreateAPIView):
-    # permission_classes = (IsAuthenticated,)
+    permission_classes = (IsAuthenticated,)
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
 
@@ -33,7 +33,7 @@ class CategoryDetailAPIView(RetrieveUpdateDestroyAPIView):
 
 
 class VideoListApiView(ListCreateAPIView):
-    # permission_classes = (IsAuthenticated,)
+    permission_classes = (IsAuthenticated,)
     serializer_class = VideoSerializer
 
     # print(Video.y)

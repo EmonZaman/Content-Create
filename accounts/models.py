@@ -21,7 +21,7 @@ def upload_and_rename(self, filename):
 
 class User(AbstractUser):
     country = models.CharField(max_length=20, null=True, verbose_name=_('user country name'), blank=True)
-    profile_pic = models.ImageField(upload_to="media/", verbose_name=_('user profile pic'), blank=True,
+    profile_pic = models.FileField(upload_to="media/", verbose_name=_('user profile pic'), blank=True,
                                     null=True)
     secondary_email = models.EmailField(max_length=255,  verbose_name=_('user secondary  email'), unique=True,
                                         blank=True, null=True)
