@@ -56,7 +56,7 @@ class VideoLikes(models.Model):
         verbose_name_plural = _('VideoLikes')
 
     def __str__(self):
-        return f"{self.likevideo.id}"
+        return f"{self.likevideo.title}"
 
 
 class SaveVideos(models.Model):
