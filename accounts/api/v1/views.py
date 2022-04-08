@@ -15,8 +15,13 @@ from accounts.models import User
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView, CreateAPIView, GenericAPIView
 from accounts.api.v1.serializers import AccountsSerializer, RegisterSerializer, UserSerializer, GoogleLoginSerializer
 import stripe
+from datetime import timedelta
+import datetime
+import pytz
 
 stripe.api_key = 'sk_test_51KeXrmExsbXRovz76iC19UwNt6uq4XfEjMZIIwfHoz8JW6Sq9UFLk8PfmpqHtE49a27bWjXgeLgRViJC4LpBoSUM001fgxvoRx'
+
+utc = pytz.UTC
 
 
 class UserListApiView(ListCreateAPIView):
@@ -99,7 +104,7 @@ class LoginAPIView(GenericAPIView):
 
 class CurrentUser(GenericAPIView):
     serializer_class = UserSerializer
-    permission_classes = [IsAuthenticated,]
+    permission_classes = [IsAuthenticated, ]
 
     def get(self, request):
         current_user = request.user
@@ -137,3 +142,38 @@ class GoogleLoginView(AbstractBaseLoginView):
     serializer_class = GoogleLoginSerializer
     adapter_class = GoogleOAuth2Adapter
     client_class = OAuth2Client
+
+
+class CheckPro(GenericAPIView):
+    serializer_class = UserSerializer
+    permission_classes = [IsAuthenticated, ]
+
+    def get(self, request):
+        user = self.request.user
+        print(user.free_expiry_date)
+        user.free_expiry_date = user.date_joined + timedelta(15)
+        user.save()
+        print(user.free_expiry_date)
+        # user.pro_expiry_date = utc.localize(user.pro_expiry_date)
+        # user.free_expiry_date = utc.localize(user.free_expiry_date)
+        free_expairy = user.free_expiry_date.replace(tzinfo=None)
+
+        print("pro expiry date")
+        # print(pro_expiry)
+        if free_expairy >= datetime.datetime.now():
+            return Response(True)
+        elif user.pro_expiry_date is not None:
+            pro_expiry = user.pro_expiry_date.replace(tzinfo=None)
+            if pro_expiry >= datetime.datetime.now():
+                return Response(True)
+        else:
+            user.is_pro = False
+            user.save()
+            return Response(False)
+
+        # try:
+        #     user = User.objects.get(username=username) # retrieve the user using username
+        # except User.DoesNotExist:
+        #     return Response(data={'message':False}) # return false as user does not exist
+        # else:
+        #     return Response(data={'message':True}) # Otherwise, return True

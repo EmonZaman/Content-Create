@@ -34,7 +34,8 @@ class User(AbstractUser):
     full_name = models.TextField(blank=True,null=True, verbose_name=_('User full name'))
     age = models.IntegerField(verbose_name=_('user age'),null=True,blank=True)
     language = models.CharField(max_length=255, null=True,verbose_name=_('User language'), blank=True)
-    is_pro = models.BooleanField(default=False, verbose_name=_('User is pro or not'))
+    is_pro = models.BooleanField(default=True, verbose_name=_('User is pro or not'))
+    free_expiry_date = models.DateTimeField(null=True, verbose_name=_('free expiry date'), blank=True)
     pro_expiry_date = models.DateTimeField(null=True, verbose_name=_('Subscription expiry date'), blank=True)
     def get_full_name(self):
         return super().get_full_name()

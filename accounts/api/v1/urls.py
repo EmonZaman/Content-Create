@@ -1,6 +1,7 @@
 from django.urls import path
 from rest_framework.urlpatterns import format_suffix_patterns
-from .views import UserListApiView, UserDetailAPIView, RegisterAPIView, LoginAPIView, CurrentUser, GoogleLoginView
+from .views import UserListApiView, UserDetailAPIView, RegisterAPIView, LoginAPIView, CurrentUser, GoogleLoginView, \
+    CheckPro
 
 urlpatterns = [
     path('userlist/', UserListApiView.as_view(), name="user"),
@@ -10,5 +11,5 @@ urlpatterns = [
     path('current_user/', CurrentUser.as_view(), name="current-user"),
     path('google/login/', GoogleLoginView.as_view(), name="google-log-in"),
     # path('user/profile/', UserProfileDetailApiView.as_view(), name="user-profile"),
-
+    path('checkpro/', CheckPro.as_view(),name="pro or not")
 ]
