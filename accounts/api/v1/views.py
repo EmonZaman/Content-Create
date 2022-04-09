@@ -166,6 +166,11 @@ class CheckPro(GenericAPIView):
             pro_expiry = user.pro_expiry_date.replace(tzinfo=None)
             if pro_expiry >= datetime.datetime.now():
                 return Response(True)
+            else:
+                user.is_pro = False
+                user.save()
+                return Response(False)
+
         else:
             user.is_pro = False
             user.save()
