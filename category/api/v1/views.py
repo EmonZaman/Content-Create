@@ -13,7 +13,7 @@ from accounts.models import User
 from category.api.v1.serializers import CategorySerializer, VideoSerializer, VideolikeSerializer, SaveVideoSerializer, \
     RecentShownSerializers
 from category.models import Category, Video, VideoLikes, SaveVideos, RecentShownVideos
-
+from django.db.models import Sum
 from datetime import datetime, timedelta
 import stripe
 
@@ -164,7 +164,7 @@ class UserAndSubscriberCountAPIView(GenericAPIView):
         users_last_seven_days = self.request.query_params.get('users_last_seven_days', None)
         total_users = self.request.query_params.get('total_users', None)
         users_today = self.request.query_params.get('users_today', None)
-
+        total_subscriber = self.request.query_params.get('total_subscriber', None)
         if total_pro_user == "true":
             pro_user_count = User.objects.filter(is_pro=True).count()
             response['Total_pro_users'] = pro_user_count
@@ -186,7 +186,9 @@ class UserAndSubscriberCountAPIView(GenericAPIView):
         if users_today == "true":
             pro_user_count = User.objects.filter(date_joined__gte=datetime.now() - timedelta(days=1)).count()
             response['users_today'] = pro_user_count
-
+        if total_subscriber == "true":
+            pro_user_count = User.objects.aggregate(Sum('subscription_buy'))
+            response['total_subscriber'] = pro_user_count
         return Response(response)
 
 
