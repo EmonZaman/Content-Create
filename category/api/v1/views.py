@@ -245,7 +245,14 @@ class StripeSuccessAPIView(GenericAPIView):
             expiry = datetime.now() + timedelta(30)
             user.pro_expiry_date = expiry
             print(user.pro_expiry_date)
+            if user.subscription_buy is None:
+                user.subscription_buy = 1
+            else:
+                user.subscription_buy= user.subscription_buy+1
+
+
             user.save()
+            # user.save(update_fields=['is_pro'])
             print(user.is_pro)
 
             return Response(True)
