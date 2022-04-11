@@ -34,32 +34,32 @@ STATICFILES_DIRS = (
 # EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 # STATICFILES_DIRS = [BASE_DIR / 'static_local']
-# storage for cloudinary
-DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+# # storage for cloudinary
+# DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 # storage for aws s3
-# DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 
 # DEBUG TOOLBAR
 INTERNAL_IPS = ['127.0.0.1']
 # Activate Django-Heroku.
 django_heroku.settings(locals())
-CLOUDINARY_STORAGE = {
-    'CLOUD_NAME': 'dlvdomgmh',
-    'API_KEY': '424831393245899',
-    # 'resource_type':'video',
-    'API_SECRET': 'drO3KapwEEH_qXQTI9UZp-231Fw',
-    # 'STATIC_IMAGES_EXTENSIONS': ['jpg', 'jpe', 'jpeg', 'jpc', 'jp2', 'j2k', 'wdp', 'jxr',
-    #                              'hdp', 'png', 'gif', 'webp', 'bmp', 'tif', 'tiff', 'ico'],
-    # 'STATIC_VIDEOS_EXTENSIONS': ['mp4', 'webm', 'flv', 'mov', 'ogv' ,'3gp' ,'3g2' ,'wmv' ,
-    #                              'mpeg' ,'flv' ,'mkv' ,'avi'],
-
-}
+# CLOUDINARY_STORAGE = {
+#     'CLOUD_NAME': 'dlvdomgmh',
+#     'API_KEY': '424831393245899',
+#     # 'resource_type':'video',
+#     'API_SECRET': 'drO3KapwEEH_qXQTI9UZp-231Fw',
+#     # 'STATIC_IMAGES_EXTENSIONS': ['jpg', 'jpe', 'jpeg', 'jpc', 'jp2', 'j2k', 'wdp', 'jxr',
+#     #                              'hdp', 'png', 'gif', 'webp', 'bmp', 'tif', 'tiff', 'ico'],
+#     # 'STATIC_VIDEOS_EXTENSIONS': ['mp4', 'webm', 'flv', 'mov', 'ogv' ,'3gp' ,'3g2' ,'wmv' ,
+#     #                              'mpeg' ,'flv' ,'mkv' ,'avi'],
+#
+# }
 
 # for aws s3
-# AWS_S3_ACCESS_KEY_ID
-# AWS_S3_SECRET_ACCESS_KEY
-# AWS_STORAGE_BUCKET_NAME
-# AWS_QUERYSTRING_AUTH
+AWS_S3_ACCESS_KEY_ID ='AKIA2HXNP5IT4WA2NIVY'
+AWS_S3_SECRET_ACCESS_KEY ='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'
+AWS_STORAGE_BUCKET_NAME ='serenity-digital-storage'
+AWS_QUERYSTRING_AUTH = False
 
 # EMAIL_USE_TLS = True
 # EMAIL_HOST = 'smtp.gmail.com'
