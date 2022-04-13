@@ -101,7 +101,8 @@ class CreateCheckoutSessionView(View):
         # current_user.save()
 
         # YOUR_DOMAIN = "https://django-testing-app-check.herokuapp.com"
-        YOUR_DOMAIN = "http://127.0.0.1:8000/category"
+        # YOUR_DOMAIN = "http://127.0.0.1:8000/category"
+        YOUR_DOMAIN = "https://django-testing-app-check.herokuapp.com/category"
         checkout_session = stripe.checkout.Session.create(
             # payment_method_type=['card'],
             line_items=[
@@ -127,7 +128,7 @@ class CreateCheckoutSessionView(View):
             success_url=YOUR_DOMAIN + '/success/',
             cancel_url=YOUR_DOMAIN + '/cancel/',
         )
-        print(checkout_session)
+        # print(checkout_session)
 
         return redirect(checkout_session.url, code=303)
 
@@ -139,9 +140,10 @@ def stripe_webhook_view(request):
     payload = request.body
     sig_header = request.META['HTTP_STRIPE_SIGNATURE']
     event = None
+    print("webhook")
 
     try:
-        print(payload)
+        # print(payload)
         event = stripe.Webhook.construct_event(
             payload, sig_header, endpoint_secret
         )
