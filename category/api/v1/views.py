@@ -365,3 +365,32 @@ class StripeSuccessAPIView(GenericAPIView):
 # def email_customer_about_failed_payment(self, session):
 #     #
 #     print("Emailing customer")
+
+class ReactNativeStripeCheckoutSessionAPIView(APIView):
+    permission_classes = (IsAuthenticated,)
+
+    def post(self, request, *args, **kwargs):
+        # current_user = self.request.user.id
+        # customer = stripe.Customer.create(current_user)
+        # ephemeralKey = stripe.EphemeralKey.create(
+        #     customer=customer['id'],
+        #     stripe_version='2020-08-27',
+        # )
+        paymentIntent = stripe.PaymentIntent.create(
+            amount=1099,
+            currency='usd',
+            # customer=customer['id'],
+            automatic_payment_methods={
+                'enabled': True,
+            },
+        )
+        print("payment")
+        print(paymentIntent)
+        # print(customer)
+        # print(ephemeralKey)
+
+        publishableKey = "pk_test_51KeXrmExsbXRovz7Ve5VBK7RLrMst5UZYDmL5izxHiaczqqUrGhGmhz8wwijvUxjJR8SOa6e9LIxIPSai3QhaWh100YSdfWuFb"
+        return Response(paymentIntent, status=200)
+
+
+
