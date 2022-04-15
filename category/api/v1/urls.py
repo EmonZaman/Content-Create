@@ -2,7 +2,8 @@ from django.urls import path
 from category.api.v1.views import CategoryDetailAPIView, CategoryListApiView, VideoListApiView, VideoDetailAPIView, \
     LastSevenDaysUserListAPIView, LastSevenDaySubscriberListAPIView, UserAndSubscriberCountAPIView, \
     category_content_count, StripeCreateCheckoutSessionAPIView, LikeUpdate, SaveVideosUpdate, \
-    StripeSuccessAPIView, RecentVideosUpdate, Like, SaveVideo, RecentVideos, ReactNativeStripeCheckoutSessionAPIView
+    StripeSuccessAPIView, RecentVideosUpdate, Like, SaveVideo, RecentVideos, ReactNativeStripeCheckoutSessionAPIView, \
+    NativeAfterPaymentAPIView
 
 urlpatterns = [
     path('categories/', CategoryListApiView.as_view(), name="category_list"),
@@ -28,6 +29,8 @@ urlpatterns = [
     path('session-check/', StripeSuccessAPIView.as_view(), name="checkout-session_check"),
     path('native-checkout-session/', ReactNativeStripeCheckoutSessionAPIView.as_view(),
          name="native-checkout-session_api"),
+    path('native-after-payment/', NativeAfterPaymentAPIView.as_view(),
+         name="native-after-payment_api"),
 
     # path('webhooks/stripe', stripe_webhook_view, name="stripe_webhook-api"),
 ]

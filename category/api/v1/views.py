@@ -250,8 +250,7 @@ class StripeSuccessAPIView(GenericAPIView):
             if user.subscription_buy is None:
                 user.subscription_buy = 1
             else:
-                user.subscription_buy= user.subscription_buy+1
-
+                user.subscription_buy = user.subscription_buy + 1
 
             user.save()
             # user.save(update_fields=['is_pro'])
@@ -261,6 +260,7 @@ class StripeSuccessAPIView(GenericAPIView):
 
         else:
             return Response(False)
+
 
 # @csrf_exempt
 # def stripe_webhook_view(request):
@@ -393,4 +393,30 @@ class ReactNativeStripeCheckoutSessionAPIView(APIView):
         return Response(paymentIntent, status=200)
 
 
+class NativeAfterPaymentAPIView(APIView):
+    permission_classes = (IsAuthenticated,)
+
+    def post(self, request, *args, **kwargs):
+        user = self.request.user
+        print(user.username)
+        print(user.is_pro)
+        user.is_pro = True
+        print('user expiry date')
+        print(user.pro_expiry_date)
+        expiry = datetime.now() + timedelta(30)
+        user.pro_expiry_date = expiry
+        print('after expiry date')
+        print(user.pro_expiry_date)
+        if user.subscription_buy is None:
+            user.subscription_buy = 1
+        else:
+            user.subscription_buy = user.subscription_buy + 1
+
+        user.save()
+        print('finally expiry date')
+        print(user.pro_expiry_date)
+        print(user.subscription_buy)
+        # user.save(update_fields=['is_pro'])
+        print(user.is_pro)
+        return Response("User Filed Updated Successfully")
 
