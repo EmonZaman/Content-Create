@@ -56,17 +56,9 @@ django_heroku.settings(locals())
 # }
 
 # for aws s3
-AWS_S3_ACCESS_KEY_ID ='AKIA2HXNP5IT4WA2NIVY'
-AWS_S3_SECRET_ACCESS_KEY ='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'
-AWS_STORAGE_BUCKET_NAME ='serenity-digital-storage'
-AWS_QUERYSTRING_AUTH = False
-
-# EMAIL_USE_TLS = True
-# EMAIL_HOST = 'smtp.gmail.com'
-# EMAIL_PORT = 587
-# EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
-# EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
-
-STRIPE_PUBLIC_KEY=""
-STRIPE_SECRET_KEY=""
-STRIPE_WEBHOOK_SECRET=""
+# print("setting files are printed")
+# print(os.environ.get('AWS_S3_ACCESS_KEY_ID'))
+# AWS_S3_ACCESS_KEY_ID = os.environ.get('AWS_S3_ACCESS_KEY_ID')
+# AWS_S3_SECRET_ACCESS_KEY = os.environ.get('AWS_S3_SECRET_ACCESS_KEY')
+# AWS_STORAGE_BUCKET_NAME = os.environ.get('AWS_STORAGE_BUCKET_NAME')
+# AWS_QUERYSTRING_AUTH = False

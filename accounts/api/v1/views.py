@@ -32,44 +32,7 @@ class UserListApiView(ListCreateAPIView):
 class UserDetailAPIView(RetrieveUpdateDestroyAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
-    # def put(self, request, *args, **kwargs):
-    #     item= self.request.query_params.get('item', None)
-    #     price = self.request.query_params.get('price', None)
-    #
-    #     if item == 'true':
-    #         if price is not None:
-    #             YOUR_DOMAIN = "http://127.0.0.1:8000"
-    #             checkout_session = stripe.checkout.Session.create(
-    #                 # payment_method_type=['card'],
-    #                 line_items=[
-    #                     {
-    #                         'price_data': {
-    #                             'currency': 'usd',
-    #                             'unit_amount': 30000,
-    #                             'product_data': {
-    #                                 'name': 'checkout',
-    #
-    #                             },
-    #                         },
-    #                         # Provide the exact Price ID (for example, pr_1234) of the product you want to sell
-    #                         # 'price': '{{PRICE_ID}}',
-    #                         'quantity': 1,
-    #                     },
-    #                 ],
-    #                 mode='payment',
-    #                 # success_url=YOUR_DOMAIN + '/success/',
-    #                 # cancel_url=YOUR_DOMAIN + '/cancel/',
-    #             )
-    #             # return JsonResponse({
-    #             #     'id': checkout_session.id
-    #             #
-    #             # })
-    #             return redirect(checkout_session.url, code=303)
 
-
-# class UserProfileDetailApiView(ListCreateAPIView):
-#     queryset = UserProfile.objects.all()
-#     serializer_class = UserProfileDetailSerializer
 
 class RegisterAPIView(CreateAPIView):
     serializer_class = RegisterSerializer

@@ -4,9 +4,12 @@ from allauth.account.signals import user_logged_in
 from allauth.socialaccount.helpers import complete_social_login
 from allauth.socialaccount.providers.oauth2.client import OAuth2Error
 from django.contrib.auth import get_user_model
+from django.core.mail import send_mail
 from django.http import HttpRequest
 from django.utils import timezone
 from rest_framework import serializers
+
+import content_create.settings.development
 from accounts.models import User
 from django.conf import settings
 from django.db.models.signals import post_save
@@ -53,6 +56,7 @@ class RegisterSerializer(serializers.ModelSerializer):
             username=self.validated_data['username'],
             is_superuser=self.validated_data['is_superuser']
         )
+
         password = self.validated_data['password']
         password2 = self.validated_data['password2']
         if password != password2:
@@ -60,6 +64,14 @@ class RegisterSerializer(serializers.ModelSerializer):
 
         user.set_password(password)
         user.save()
+        subject = 'welcome to GFG world'
+        message = f'Hi {user.username}, thank you for registering in serinaty digital.'
+        email_from = content_create.settings.defaults.EMAIL_HOST_USER
+        print(email_from)
+        recipient_list = [user.email, ]
+        print(subject)
+        send_mail(subject, message, email_from, recipient_list)
+
 
         return user
 

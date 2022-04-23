@@ -10,8 +10,9 @@ from .models import UserSubscription
 from .models import *
 # Create your views here.
 import stripe
+from content_create.settings.defaults import env
 
-stripe.api_key = 'sk_test_51KeXrmExsbXRovz76iC19UwNt6uq4XfEjMZIIwfHoz8JW6Sq9UFLk8PfmpqHtE49a27bWjXgeLgRViJC4LpBoSUM001fgxvoRx'
+stripe.api_key = env.str("STRIPE_API_KEY")
 
 
 def charge(request):
@@ -136,7 +137,7 @@ class CreateCheckoutSessionView(View):
 @csrf_exempt
 def stripe_webhook_view(request):
     # endpoint_secret = 'whsec_ed2c4b532bd6c36c87b878f1d1156ab13516e9c2f60108300fadf6ed6d687a36'
-    endpoint_secret = 'whsec_j8Lwvw52Z0R4QCM8JswlQLEczJN8G1ex'
+    endpoint_secret = 'whsec_ed2c4b532bd6c36c87b878f1d1156ab13516e9c2f60108300fadf6ed6d687a36'
     payload = request.body
     sig_header = request.META['HTTP_STRIPE_SIGNATURE']
     event = None
