@@ -16,23 +16,29 @@ Including another URLconf
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
+from . import views
 
 from content_create.settings import env, STATIC_URL, MEDIA_URL, STATIC_ROOT, MEDIA_ROOT
 
 api_url_patterns = (
     [
         path('accounts/v1/', include('accounts.api.v1.urls')),
-
+        path('category/v1/', include('category.api.v1.urls')),
+        path('subscriber/v1/', include('subscriber.api.v1.urls')),
 
     ], 'api'
 )
 urlpatterns = [
     path('admin/', admin.site.urls),
 
+    path('category/', include('category.urls')),
+    path('',views.index, name='index'),
 
-    path('api/',include(api_url_patterns)),
+
+    path('api/', include(api_url_patterns)),
     path('api_auth/', include('rest_framework.urls')),
     path('accounts/', include('allauth.urls')),
+
 ]
 
 if env.str('ENV_TYPE') == 'DEVELOPMENT':

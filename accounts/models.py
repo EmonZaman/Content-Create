@@ -11,13 +11,33 @@ from django.utils.translation import gettext as _
 #     filename = f"resume/employees{filename}" if ext == 'pdf' or ext == 'doc' or ext == 'docs' or ext == 'odt' \
 #         else f"profile-pics/{filename}"
 #     return filename
+def upload_and_rename(self, filename):
+    ext = filename.split('.')[-1]
+    filename = f"{self.team.title}/{self.name.replace(' ', '-')}.{ext}"
+    filename = f"resume/employees{filename}" if ext == 'pdf' or ext == 'doc' or ext == 'docs' or ext == 'odt' \
+        else f"profile-pics/{filename}"
+    return filename
 
 
 class User(AbstractUser):
-    country = models.CharField(max_length=20, verbose_name=_('user country name'), blank=True)
-    # profile_pic = models.ImageField(upload_to=upload_and_rename, verbose_name=_('user profile pic'), blank=True,
-    #                                 null=True)
+    country = models.CharField(max_length=20, null=True, verbose_name=_('user country name'), blank=True)
+    profile_pic = models.FileField(upload_to="media/", verbose_name=_('user profile pic'), blank=True,
+                                    null=True)
+    secondary_email = models.EmailField(max_length=255,  verbose_name=_('user secondary  email'), unique=True,
+                                        blank=True, null=True)
+    phone = models.CharField(max_length=255,null=True, verbose_name=_('User phone no'), blank=True)
+    content_choice = models.TextField(verbose_name=_("User content-choices"), blank=True)
+    gender = models.CharField(max_length=255, null=True, verbose_name=_('User gender'), blank=True)
+    facebook = models.CharField(max_length=255, null=True,verbose_name=_('User facebook_link'), blank=True)
+    linked_in = models.CharField(max_length=255,null=True, verbose_name=_('User linked in link'), blank=True)
 
+    full_name = models.TextField(blank=True,null=True, verbose_name=_('User full name'))
+    age = models.IntegerField(verbose_name=_('user age'),null=True,blank=True)
+    subscription_buy = models.IntegerField(verbose_name=_('user has subscribed how many times'), null=True, blank=True)
+    language = models.CharField(max_length=255, null=True,verbose_name=_('User language'), blank=True)
+    is_pro = models.BooleanField(default=False, verbose_name=_('User is pro or not'))
+    free_expiry_date = models.DateTimeField(null=True, verbose_name=_('free expiry date'), blank=True)
+    pro_expiry_date = models.DateTimeField(null=True, verbose_name=_('Subscription expiry date'), blank=True)
     def get_full_name(self):
         return super().get_full_name()
 
