@@ -10,6 +10,6 @@ urlpatterns = [
     path('login/', LoginAPIView.as_view(), name="login"),
     path('current_user/', CurrentUser.as_view(), name="current-user"),
     path('google/login/', GoogleLoginView.as_view(), name="google-log-in"),
-    # path('user/profile/', UserProfileDetailApiView.as_view(), name="user-profile"),
-    path('checkpro/', CheckPro.as_view(),name="pro or not")
+    path('checkpro/', CheckPro.as_view(),name="pro or not"),
+
 ]

@@ -1,16 +1,10 @@
-# from contextvars import Token
-from django.shortcuts import redirect
+
 from rest_framework.authtoken.models import Token
 from allauth.socialaccount.providers.google.views import GoogleOAuth2Adapter
 from allauth.socialaccount.providers.oauth2.client import OAuth2Client
 from django.contrib.auth import get_user_model
-from rest_framework import request, status
 from rest_framework.exceptions import ValidationError
 from rest_framework.permissions import IsAuthenticated
-from rest_framework.response import Response
-from rest_framework.views import APIView
-from django.utils.translation import gettext as _
-from accounts.api.v1 import serializers
 from accounts.models import User
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView, CreateAPIView, GenericAPIView
 from accounts.api.v1.serializers import AccountsSerializer, RegisterSerializer, UserSerializer, GoogleLoginSerializer
@@ -18,10 +12,17 @@ import stripe
 from datetime import timedelta
 import datetime
 import pytz
-
-stripe.api_key = 'sk_test_51KeXrmExsbXRovz76iC19UwNt6uq4XfEjMZIIwfHoz8JW6Sq9UFLk8PfmpqHtE49a27bWjXgeLgRViJC4LpBoSUM001fgxvoRx'
+from rest_framework import generics, status
+from .serializers import RegisterSerializer
+from rest_framework.response import Response
+import os
+from django.http import HttpResponsePermanentRedirect
 
 utc = pytz.UTC
+
+
+class CustomRedirect(HttpResponsePermanentRedirect):
+    allowed_schemes = [os.environ.get('APP_SCHEME'), 'http', 'https']
 
 
 class UserListApiView(ListCreateAPIView):
