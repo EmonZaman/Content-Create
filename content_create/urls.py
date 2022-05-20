@@ -13,11 +13,12 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+
 from django.conf.urls.static import static
 from django.contrib import admin
-from django.urls import path, include
+from django.urls import path, include, re_path
 from . import views
-
+from rest_auth.views import PasswordResetConfirmView
 from content_create.settings import env, STATIC_URL, MEDIA_URL, STATIC_ROOT, MEDIA_ROOT
 
 api_url_patterns = (
@@ -32,12 +33,19 @@ urlpatterns = [
     path('admin/', admin.site.urls),
 
     path('category/', include('category.urls')),
-    path('',views.index, name='index'),
-
+    path('', views.index, name='index'),
 
     path('api/', include(api_url_patterns)),
     path('api_auth/', include('rest_framework.urls')),
     path('accounts/', include('allauth.urls')),
+    path('dj-rest-auth/', include('dj_rest_auth.urls')),
+
+    # path('dj-rest-auth/password/reset/confirm/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/',
+    #     PasswordResetConfirmView.as_view(),
+    #     name='password_reset_confirm'),
+    path('dj-rest-auth/password/reset/confirm/<uidb64>/<token>/',
+         PasswordResetConfirmView.as_view(),
+         name='password_reset_confirm'),
 
 ]
 
