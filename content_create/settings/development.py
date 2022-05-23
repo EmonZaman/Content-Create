@@ -1,6 +1,9 @@
 import os
 
 import django_heroku
+from storages.backends.s3boto3 import S3Boto3Storage
+
+import content_create.settings.backends
 from .defaults import *
 
 DEBUG = True
@@ -32,12 +35,16 @@ STATICFILES_DIRS = (
 
 )
 # EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+# STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 # STATICFILES_DIRS = [BASE_DIR / 'static_local']
 # # storage for cloudinary
 # DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 # storage for aws s3
-DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+
+DEFAULT_FILE_STORAGE = "content_create.settings.backends.MediaRootS3Boto3Storage"
+STATICFILES_STORAGE = "content_create.settings.backends.StaticRootS3Boto3Storage"
+#original
+# DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 
 # DEBUG TOOLBAR
 INTERNAL_IPS = ['127.0.0.1']

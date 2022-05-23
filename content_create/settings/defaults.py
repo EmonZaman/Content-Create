@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     'cloudinary_storage',
     'cloudinary',
     'corsheaders',
+    'storages',
 
     # 'django_filters',
     'rest_framework.authtoken',
@@ -226,6 +227,11 @@ REST_FRAMEWORK = {
 AWS_S3_ACCESS_KEY_ID = env.str("AWS_S3_ACCESS_KEY_ID")
 AWS_S3_SECRET_ACCESS_KEY = env.str("AWS_S3_SECRET_ACCESS_KEY")
 AWS_STORAGE_BUCKET_NAME = env.str("AWS_STORAGE_BUCKET_NAME")
+AWS_S3_ENDPOINT_URL="https://nyc3.digitaloceanspaces.com"
+AWS_S3_OBJECT_PARAMETERS={
+    "CacheControl": "max-age=86400",
+}
+AWS_LOCATION = "https://serenity-digital-storage.nyc3.digitaloceanspaces.com/"
 AWS_QUERYSTRING_AUTH = False
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
