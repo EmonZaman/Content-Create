@@ -47,13 +47,17 @@ class RegisterSerializer(serializers.ModelSerializer):
             username=self.validated_data['username'],
             is_superuser=self.validated_data['is_superuser']
         )
+        print(user.email)
 
         password = self.validated_data['password']
         password2 = self.validated_data['password2']
+        if User.objects.filter(email=user.email).exists():
+            raise serializers.ValidationError({'Email': 'This mail already exists'})
         if password != password2:
             raise serializers.ValidationError({'password': 'password dont match'})
 
         user.set_password(password)
+        print('user have not saved yet')
         user.save()
         subject = 'welcome to Serenity Digital'
         message = f'Hi {user.username}, thank you for registering in serinaty digital.'
