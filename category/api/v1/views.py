@@ -8,6 +8,8 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from django.http import HttpResponse
+
+import content_create.settings.defaults
 from accounts.api.v1.serializers import UserSerializer
 from accounts.models import User
 from category.api.v1.serializers import CategorySerializer, VideoSerializer, VideolikeSerializer, SaveVideoSerializer, \
@@ -17,7 +19,9 @@ from django.db.models import Sum
 from datetime import datetime, timedelta
 import stripe
 
-stripe.api_key = 'sk_test_51KeXrmExsbXRovz76iC19UwNt6uq4XfEjMZIIwfHoz8JW6Sq9UFLk8PfmpqHtE49a27bWjXgeLgRViJC4LpBoSUM001fgxvoRx'
+# stripe.api_key = 'sk_test_51KeXrmExsbXRovz76iC19UwNt6uq4XfEjMZIIwfHoz8JW6Sq9UFLk8PfmpqHtE49a27bWjXgeLgRViJC4LpBoSUM001fgxvoRx'
+stripe.api_key = content_create.settings.defaults.STRIPE_SECRET_KEY
+print(stripe.api_key)
 
 
 class CategoryListApiView(ListCreateAPIView):
