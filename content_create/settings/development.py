@@ -34,6 +34,9 @@ STATICFILES_DIRS = (
     os.path.join(BASE_DIR,'build','static'),
 
 )
+REST_AUTH_SERIALIZERS = {
+    'PASSWORD_RESET_SERIALIZER': 'content_create.serializers.CustomPasswordResetSerializer'
+}
 # EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 # STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 # STATICFILES_DIRS = [BASE_DIR / 'static_local']
