@@ -60,8 +60,9 @@ class RegisterSerializer(serializers.ModelSerializer):
         print('user have not saved yet')
         user.save()
         subject = 'welcome to Serenity Digital'
-        message = f'Hi {user.username}, thank you for registering in serinaty digital.'
+        message = f'Hi {user.username}, thank you for registering in Serenity Digital.'
         email_from = content_create.settings.defaults.EMAIL_HOST_USER
+        passcheck= content_create.settings.defaults.EMAIL_HOST_PASSWORD
         print(email_from)
         recipient_list = [user.email, ]
         print(subject)
