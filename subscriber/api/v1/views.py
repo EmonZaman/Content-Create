@@ -6,7 +6,7 @@ from subscriber.models import Subscriber
 
 
 class SubscriberListAPIView(ListCreateAPIView):
-    permission_classes = (IsAuthenticated,)
+    # permission_classes = (IsAuthenticated,)
     queryset = Subscriber.objects.all()
     serializer_class = SubscriberSerializer
 
