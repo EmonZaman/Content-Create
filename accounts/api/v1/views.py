@@ -1,4 +1,3 @@
-
 from rest_framework.authtoken.models import Token
 from allauth.socialaccount.providers.google.views import GoogleOAuth2Adapter
 from allauth.socialaccount.providers.oauth2.client import OAuth2Client
@@ -118,13 +117,17 @@ class CheckPro(GenericAPIView):
         user.free_expiry_date = user.date_joined + timedelta(15)
         user.save()
         print(user.free_expiry_date)
+        print('superuser or not')
+        print(user.is_superuser)
         # user.pro_expiry_date = utc.localize(user.pro_expiry_date)
         # user.free_expiry_date = utc.localize(user.free_expiry_date)
         free_expairy = user.free_expiry_date.replace(tzinfo=None)
 
         print("pro expiry date")
         # print(pro_expiry)
-        if free_expairy >= datetime.datetime.now():
+        if user.is_superuser == True:
+            return Response(True)
+        elif free_expairy >= datetime.datetime.now():
             return Response(True)
         elif user.pro_expiry_date is not None:
             pro_expiry = user.pro_expiry_date.replace(tzinfo=None)
