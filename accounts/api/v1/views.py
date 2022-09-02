@@ -118,6 +118,7 @@ class CheckPro(GenericAPIView):
         user.save()
         print(user.free_expiry_date)
         print('superuser or not')
+
         print(user.is_superuser)
         # user.pro_expiry_date = utc.localize(user.pro_expiry_date)
         # user.free_expiry_date = utc.localize(user.free_expiry_date)
