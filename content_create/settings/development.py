@@ -11,22 +11,22 @@ DEBUG = True
 # ALLOWED_HOSTS = ['django-testing-app-check.herokuapp.com', '127.0.0.1', 'http://localhost:3000']
 
 #
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'serenity',
-        'USER': 'doadmin',
-        'PASSWORD': 'AVNS_FbFZEG3YtauXeE1k8Ws',
-        'HOST': 'db-postgresql-sgp1-67171-do-user-11589085-0.b.db.ondigitalocean.com',
-        'PORT': '25060',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME': 'serenity',
+#         'USER': 'doadmin',
+#         'PASSWORD': 'AVNS_FbFZEG3YtauXeE1k8Ws',
+#         'HOST': 'db-postgresql-sgp1-67171-do-user-11589085-0.b.db.ondigitalocean.com',
+#         'PORT': '25060',
+#     }
+# }
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
