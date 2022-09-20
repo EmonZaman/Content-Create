@@ -237,7 +237,9 @@ REST_FRAMEWORK = {
         'rest_framework.filters.SearchFilter',
         # 'core.api.filters.OrderingFilter',
         # 'django_filters.rest_framework.DjangoFilterBackend',
-    ]
+    ],
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 10
 }
 
 AWS_S3_ACCESS_KEY_ID = env.str("AWS_S3_ACCESS_KEY_ID")
