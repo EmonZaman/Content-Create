@@ -27,6 +27,7 @@ print(stripe.api_key)
 class CategoryListApiView(ListCreateAPIView):
     permission_classes = (IsAuthenticated,)
     queryset = Category.objects.all()
+    pagination_class = None
     serializer_class = CategorySerializer
 
 
