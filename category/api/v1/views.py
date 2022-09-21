@@ -88,6 +88,7 @@ class SaveVideo(ListCreateAPIView):
 
 class SaveVideosUpdate(RetrieveUpdateDestroyAPIView):
     serializer_class = SaveVideoSerializer
+    pagination_class = None
     queryset = SaveVideos.objects.all()
 
 
