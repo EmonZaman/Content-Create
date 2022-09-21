@@ -67,6 +67,7 @@ class SaveVideos(models.Model):
     class Meta:
         verbose_name = _('SaveVideo')
         verbose_name_plural = _('SaveVideos')
+        ordering = ['-id']
 
     def __str__(self):
         return f"{self.user.username}"
@@ -80,6 +81,7 @@ class RecentShownVideos(models.Model):
     class Meta:
         verbose_name = _('RecentShownVideo')
         verbose_name_plural = _('RecentShownVideos')
+        ordering = ['-id']
 
     def __str__(self):
         return f"{self.user.username}"
